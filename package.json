@@ -21,8 +21,13 @@
     "format:check": "prettier ./src --check"
   },
   "contributors": [
-    "1dv610 Organization",
-    "YOUR NAME <YOUR EMAIL>"
+    {
+      "name": "1dv610 Organization"
+    },
+    {
+      "name": "YOUR NAME",
+      "email": "YOUR EMAIL"
+    }
   ],
   "license": "Unlicense",
   "private": false,
@@ -39,5 +44,18 @@
     "globals": "^17.12.0",
     "prettier": "^3.9.6",
     "vitest": "^5.0.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ellalovisaj/1dv610-laboration-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/ellalovisaj/1dv610-laboration-2/issues"
+  },
+  "homepage": "https://github.com/ellalovisaj/1dv610-laboration-2#readme"
 }
