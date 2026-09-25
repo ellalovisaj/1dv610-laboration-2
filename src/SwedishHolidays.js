@@ -36,7 +36,7 @@ export const fixedHolidays = [
  * Midsummer Eve, which falls on the first Friday between the 19th
  * and the 25th of June.
  * 
- * @param {number} year - The year to find the date in.
+ * @param {number} year - The year.
  * @returns {object} The date of Midsummer Day.
  */
 function getMidsummerDayDate(year) {
@@ -44,7 +44,7 @@ function getMidsummerDayDate(year) {
   let weekday
   let date
 
-  // Loop until date is a Friday (5)
+  // Loop until weekday is a Friday (5)
   while (weekday !== 5){
     date = new Date(`${year}-06-${day}`)
     weekday = getWeekday(date)
@@ -57,19 +57,39 @@ function getMidsummerDayDate(year) {
   return new Date(`${year}-06-${day}`)
 }
 
-// All Saint's Day
-// First Saturday between October 31 and November 6
 /**
- *
- * @param year
+ * Gets the date of All Saint's Day, which falls on the Saturday
+ * between 31st of October and 6th of November.
+ * 
+ * @param {number} year - The year.
+ * @returns {object} The date of All Saint's Day.
  */
-function getAllSaintsDayDate(year) {
-  // calculate here
-  // return date
+function getAllSaintsDayDate(year) { 
+  // Set date to October 31 and check which weekday it is
+  let date = new Date(`${year}-10-31`)
+  let weekday = getWeekday(date)
+
+  // Return date if weekday is Saturday (6).
+  if (weekday === 6) {
+    return date
+  }
+
+  // TODO: Time zone issue, when day is one digit (i.e 6 instead of 06). Fix formatting
+
+  let day = 1
+
+  // Loop until weekday is a Saturday (6)
+  while (weekday !== 6){
+    date = new Date(`${year}-11-${day}`)
+    weekday = getWeekday(date)
+    day++
+  } 
+
+  return date
 }
 
 /**
- *
+ * 
  * @param date
  */
 function getWeekday(date) {
