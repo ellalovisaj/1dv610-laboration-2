@@ -32,12 +32,29 @@ export const fixedHolidays = [
 // Midsummer
 // Day after Friday that falls between 19 and 25 of June
 /**
- *
- * @param year
+ * Gets the date of Midsummer Day. It occurs the day after 
+ * Midsummer Eve, which falls on the first Friday between the 19th
+ * and the 25th of June.
+ * 
+ * @param {number} year - The year to find the date in.
+ * @returns {object} The date of Midsummer Day.
  */
 function getMidsummerDayDate(year) {
-  // calculate here
-  // return date
+  let day = 19
+  let weekday
+  let date
+
+  // Loop until date is a Friday (5)
+  while (weekday !== 5){
+    date = new Date(`${year}-06-${day}`)
+    weekday = getWeekday(date)
+    day++
+  } 
+  
+  // TODO: Better solution?
+
+  // New date object to account for the extra day
+  return new Date(`${year}-06-${day}`)
 }
 
 // All Saint's Day
