@@ -30,20 +30,20 @@ export class Holiday {
   /**
    *
    */
-  // findNextHoliday() {}
+  // nextHoliday() {}
 
   /**
    *
    */
-  // workdaysUntil() {}
+  // workdaysUntil(date) {}
 
   /**
    *
    */
-  // workdaysBetween() {}
+  // workdaysBetween(date1, date2) {}
 
   /**
    *
    */
-  // holidaysLeftThisYear() {}
+  // holidaysLeft() {}
 }
