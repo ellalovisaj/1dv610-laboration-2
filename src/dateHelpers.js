@@ -14,6 +14,28 @@ export class DateHelpers {
     return weekday
   }
 
+  /**
+   * Finds the first date of the given weekday between the two
+   * given dates.
+   *
+   * @param {object} date1 - The first date in the range.
+   * @param {object} date2 - The last date in the range.
+   * @param {number} weekdayToFind - Number of the weekday to find.
+   * @returns {object} The first day of the given weekday.
+   */
+  findFirstDateOfWeekdayBetween(date1, date2, weekdayToFind) {
+    let date = new Date(date1)
+
+    while (date.getTime() <= date2.getTime()) {
+      if (this.getWeekday(date) === weekdayToFind) {
+        return date
+      }
+      date = this.addDays(date, 1)
+    }
+    throw new Error(`Weekday ${weekdayToFind} not found in the given range.`)
+    
+  }
+
   // TODO: Doesn't work over different months and years
   /**
    * Adds a given amount of days to a date.
