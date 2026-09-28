@@ -3,10 +3,8 @@
  */
 
 import { DateHelpers } from './dateHelpers.js'
-import { EasterCalculator } from './easterCalculator.js'
 
 const helpers = new DateHelpers()
-const easterHelper = new EasterCalculator()
 
 // All fixed holidays, the same date every year
 const fixedHolidays = [
@@ -17,61 +15,6 @@ const fixedHolidays = [
   { name: 'Christmas Day', month: 12, day: 25 },
   { name: 'Boxing Day', month: 12, day: 26 },
 ]
-
-/**
- * Gets the date of the day after Easter (annandag påsk).
- *
- * @param {number} year - The year.
- * @returns {object} The date of the day after Easter.
- */
-function getGoodFridayDate(year) {
-  const easterDate = getEasterDate(year)
-  return helpers.addDays(easterDate, -2)
-}
-
-/**
- * Gets the date of Easter.
- *
- * @param {number} year - The year.
- * @returns {object} The date of Easter.
- */
-function getEasterDate(year) {
-  const date = easterHelper.gaussAlgorithm(year)
-  return date
-}
-
-/**
- * Gets the date of the day after Easter (annandag påsk).
- *
- * @param {number} year - The year.
- * @returns {object} The date of the day after Easter.
- */
-function getDayAfterEaster(year) {
-  const easterDate = getEasterDate(year)
-  return helpers.addDays(easterDate, 1)
-}
-
-/**
- * Gets the date of Ascension Day that falls 39 days after Easter.
- *
- * @param {number} year - The year.
- * @returns {object} The date of Ascension Day.
- */
-function getAscensionDayDate(year) {
-  const easterDate = getEasterDate(year)
-  return helpers.addDays(easterDate, 39)
-}
-
-/**
- * Gets the date of Pentecost that falls 49 days after Easter.
- *
- * @param {number} year - The year.
- * @returns {object} The date of Pentecost.
- */
-function getPentecostDate(year) {
-  const easterDate = getEasterDate(year)
-  return helpers.addDays(easterDate, 49)
-}
 
 /**
  * Gets the date of Midsummer Day. It occurs the day after
