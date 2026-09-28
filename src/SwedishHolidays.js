@@ -2,6 +2,10 @@
  * Represents the Swedish holidays in a specific year.
  */
 
+import { DateHelpers } from "./dateHelpers.js"
+
+const dateHelpers = new DateHelpers()
+
 // All fixed holidays, the same date every year
 export const fixedHolidays = [
   { name: 'New Years Day', month: 1, day: 1 },
@@ -47,7 +51,7 @@ function getMidsummerDayDate(year) {
   // Loop until weekday is a Friday (5)
   while (weekday !== 5) {
     date = new Date(`${year}-06-${day}`)
-    weekday = getWeekday(date)
+    weekday = dateHelpers.getWeekday(date)
     day++
   }
 
@@ -67,7 +71,7 @@ function getMidsummerDayDate(year) {
 function getAllSaintsDayDate(year) {
   // Set date to October 31 and check which weekday it is
   let date = new Date(`${year}-10-31`)
-  let weekday = getWeekday(date)
+  let weekday = dateHelpers.getWeekday(date)
 
   // Return date if weekday is Saturday (6).
   if (weekday === 6) {
@@ -81,37 +85,10 @@ function getAllSaintsDayDate(year) {
   // Loop until weekday is a Saturday (6)
   while (weekday !== 6) {
     date = new Date(`${year}-11-${day}`)
-    weekday = getWeekday(date)
+    weekday = dateHelpers.getWeekday(date)
     day++
   }
 
   return date
 }
 
-/**
- * Returns a number representing the weekday of the given date.
- * (Monday = 1, Tuesday = 2 etc.)
- * 
- * @param {object} date - The date to find weekday from.
- * @returns {number} The day of the week in numbers.
- */
-function getWeekday(date) {
-  const weekday = date.getDay()
-  return weekday
-}
-
-// TODO: Doesn't work over different months and years
-/**
- * Adds a given amount of days to a date.
- *
- * @param {object} date - The date to add days to.
- * @param {number} days - The number of days to add.
- * @returns {object} The date with days added.
- */
-function addDays(date, days) {
-  const dateString = date.toISOString().split('T')[0]
-  const dateArray = dateString.split('-')
-  const newDay = parseInt(dateArray[2]) + days
-
-  return new Date(`${dateArray[0]}-${dateArray[1]}-${newDay}`)
-}
