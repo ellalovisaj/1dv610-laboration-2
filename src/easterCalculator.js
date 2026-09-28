@@ -1,10 +1,36 @@
-import { DateHelpers } from './dateHelpers'
+import { DateHelpers } from './dateHelpers.js'
 
 /**
  * Easter calculations.
  */
 export class EasterCalculator {
   #helpers = new DateHelpers()
+  #easterBasedHolidays = [
+    { name: 'Good Friday', daysFromEaster: -2 },
+    { name: 'Easter', daysFromEaster: 0 },
+    { name: 'Day after Easter', daysFromEaster: 1 },
+    { name: 'Ascension Day', daysFromEaster: 39 },
+    { name: 'Pentecost', daysFromEaster: 49 },
+  ]
+
+  /**
+   * Calculates the date of all Easter-based holidays.
+   *
+   * @param {number} year - The year.
+   * @returns {object[]} Holiday names and dates.
+   */
+  getEasterBasedHolidays(year) {
+    // Get date of Easter
+    const easter = this.#gaussAlgorithm(year)
+
+    // For every easter-based holiday
+    for (const holiday of this.#easterBasedHolidays) {
+      // Set date of each holiday
+      holiday.date = this.#helpers.addDays(easter, holiday.daysFromEaster)
+    }
+    return this.#easterBasedHolidays
+  }
+
   /**
    * A simplified version of Gauss Easter Algorithm. Will get
    * the wrong date in a few specific cases, as well as the years
@@ -13,7 +39,7 @@ export class EasterCalculator {
    * @param {number} year - The year to calculate Easter in.
    * @returns {object} The date of Easter in the given year.
    */
-  gaussAlgorithm(year) {
+  #gaussAlgorithm(year) {
     const a = year % 19
     const b = year % 4
     const c = year % 7
@@ -32,60 +58,5 @@ export class EasterCalculator {
       easterMonth = '03'
     }
     return new Date(`${year}-${easterMonth}-${easterDay}`)
-  }
-
-  /**
-   * Gets the date of the day after Easter (annandag påsk).
-   *
-   * @param {number} year - The year.
-   * @returns {object} The date of the day after Easter.
-   */
-  getGoodFridayDate(year) {
-    const easterDate = this.getEasterDate(year)
-    return this.#helpers.addDays(easterDate, -2)
-  }
-
-  /**
-   * Gets the date of Easter.
-   *
-   * @param {number} year - The year.
-   * @returns {object} The date of Easter.
-   */
-  getEasterDate(year) {
-    const date = this.gaussAlgorithm(year)
-    return date
-  }
-
-  /**
-   * Gets the date of the day after Easter (annandag påsk).
-   *
-   * @param {number} year - The year.
-   * @returns {object} The date of the day after Easter.
-   */
-  getDayAfterEaster(year) {
-    const easterDate = this.getEasterDate(year)
-    return this.#helpers.addDays(easterDate, 1)
-  }
-
-  /**
-   * Gets the date of Ascension Day that falls 39 days after Easter.
-   *
-   * @param {number} year - The year.
-   * @returns {object} The date of Ascension Day.
-   */
-  getAscensionDayDate(year) {
-    const easterDate = this.getEasterDate(year)
-    return this.#helpers.addDays(easterDate, 39)
-  }
-
-  /**
-   * Gets the date of Pentecost that falls 49 days after Easter.
-   *
-   * @param {number} year - The year.
-   * @returns {object} The date of Pentecost.
-   */
-  getPentecostDate(year) {
-    const easterDate = this.getEasterDate(year)
-    return this.#helpers.addDays(easterDate, 49)
   }
 }
