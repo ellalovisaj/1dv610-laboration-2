@@ -36,7 +36,6 @@ export class DateHelpers {
     
   }
 
-  // TODO: Doesn't work over different months and years
   /**
    * Adds a given amount of days to a date.
    *
@@ -45,10 +44,7 @@ export class DateHelpers {
    * @returns {object} The date with days added.
    */
   addDays(date, days) {
-    const dateString = date.toISOString().split('T')[0]
-    const dateArray = dateString.split('-')
-    const newDay = parseInt(dateArray[2]) + days
-
-    return new Date(`${dateArray[0]}-${dateArray[1]}-${newDay}`)
+    date.setDate(date.getDate() + days)
+    return date
   }
 }
