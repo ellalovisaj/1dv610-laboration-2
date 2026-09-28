@@ -4,7 +4,7 @@
 
 import { DateHelpers } from "./dateHelpers.js"
 
-const dateHelpers = new DateHelpers()
+const helpers = new DateHelpers()
 
 // All fixed holidays, the same date every year
 export const fixedHolidays = [
@@ -33,8 +33,6 @@ export const fixedHolidays = [
 // Pentecost
 // 49 days after Easter
 
-// Midsummer
-// Day after Friday that falls between 19 and 25 of June
 /**
  * Gets the date of Midsummer Day. It occurs the day after
  * Midsummer Eve, which falls on the first Friday between the 19th
@@ -43,22 +41,14 @@ export const fixedHolidays = [
  * @param {number} year - The year.
  * @returns {object} The date of Midsummer Day.
  */
-function getMidsummerDayDate(year) {
-  let day = 19
-  let weekday
-  let date
+export function getMidsummerDayDate(year) {
+  const startDate = new Date(`${year}-06-19`)
+  const endDate = new Date(`${year}-06-25`)
+  const midsummerEve = helpers.findFirstDateOfWeekdayBetween(startDate, endDate, 5)
 
-  // Loop until weekday is a Friday (5)
-  while (weekday !== 5) {
-    date = new Date(`${year}-06-${day}`)
-    weekday = dateHelpers.getWeekday(date)
-    day++
-  }
-
-  // TODO: Better solution?
-
-  // New date object to account for the extra day
-  return new Date(`${year}-06-${day}`)
+  const midsummerDay = helpers.addDays(midsummerEve, 1)
+  
+  return midsummerDay
 }
 
 /**
@@ -71,7 +61,7 @@ function getMidsummerDayDate(year) {
 function getAllSaintsDayDate(year) {
   // Set date to October 31 and check which weekday it is
   let date = new Date(`${year}-10-31`)
-  let weekday = dateHelpers.getWeekday(date)
+  let weekday = helpers.getWeekday(date)
 
   // Return date if weekday is Saturday (6).
   if (weekday === 6) {
@@ -85,7 +75,7 @@ function getAllSaintsDayDate(year) {
   // Loop until weekday is a Saturday (6)
   while (weekday !== 6) {
     date = new Date(`${year}-11-${day}`)
-    weekday = dateHelpers.getWeekday(date)
+    weekday = helpers.getWeekday(date)
     day++
   }
 
