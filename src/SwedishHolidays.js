@@ -58,27 +58,11 @@ export function getMidsummerDayDate(year) {
  * @param {number} year - The year.
  * @returns {object} The date of All Saint's Day.
  */
-function getAllSaintsDayDate(year) {
-  // Set date to October 31 and check which weekday it is
-  let date = new Date(`${year}-10-31`)
-  let weekday = helpers.getWeekday(date)
+export function getAllSaintsDayDate(year) {
+  const startDate = new Date(`${year}-10-31`)
+  const endDate = new Date(`${year}-11-07`)
+  const allSaintsDay = helpers.findFirstDateOfWeekdayBetween(startDate, endDate, 6)
 
-  // Return date if weekday is Saturday (6).
-  if (weekday === 6) {
-    return date
-  }
-
-  // TODO: Time zone issue, when day is one digit (i.e 6 instead of 06). Fix formatting
-
-  let day = 1
-
-  // Loop until weekday is a Saturday (6)
-  while (weekday !== 6) {
-    date = new Date(`${year}-11-${day}`)
-    weekday = helpers.getWeekday(date)
-    day++
-  }
-
-  return date
+  return allSaintsDay
 }
 
