@@ -5,7 +5,7 @@ import { DateHelpers } from './dateHelpers.js'
  */
 export class EasterCalculator {
   #helpers = new DateHelpers()
-  #easterBasedHolidays = [
+  #easterHolidayOffsets = [
     { name: 'Good Friday', daysFromEaster: -2 },
     { name: 'Easter', daysFromEaster: 0 },
     { name: 'Day after Easter', daysFromEaster: 1 },
@@ -22,13 +22,20 @@ export class EasterCalculator {
   getEasterBasedHolidays(year) {
     // Get date of Easter
     const easter = this.#gaussAlgorithm(year)
+    
+    const easterBasedHolidays = []
 
     // For every easter-based holiday
-    for (const holiday of this.#easterBasedHolidays) {
-      // Set date of each holiday
-      holiday.date = this.#helpers.addDays(easter, holiday.daysFromEaster)
+    for (const holiday of this.#easterHolidayOffsets) {
+      // Add name and date to a temporary object
+      const tempEasterHoliday = {
+        name: holiday.name,
+        date: this.#helpers.addDays(easter, holiday.daysFromEaster)
+      }
+      // Add object to array
+      easterBasedHolidays.splice(0, 0, tempEasterHoliday)
     }
-    return this.#easterBasedHolidays
+    return easterBasedHolidays
   }
 
   /**
