@@ -32,7 +32,7 @@ export class MovingHolidays {
   getMovingHolidays() {
     this.#getEasterHolidays()
     this.#getWeekdayBasedHolidays()
-    return this.#movingHolidays
+    return [...this.#movingHolidays]
   }
 
   /**
@@ -85,7 +85,7 @@ export class MovingHolidays {
    */
   #getAllSaintsDayDate() {
     const startDate = new Date(`${this.#year}-10-31`)
-    const endDate = new Date(`${this.#year}-11-07`)
+    const endDate = new Date(`${this.#year}-11-06`)
 
     const allSaintsDay = {
       name: "All Saint's Day",
