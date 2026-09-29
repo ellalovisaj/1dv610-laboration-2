@@ -80,4 +80,14 @@ export class DateHelpers {
   convertToDate(dateString) {
     return new Date(dateString)
   }
+
+  /**
+   * Get today's date and return it as a date string.
+   * 
+   * @returns {string} Today's date as a string.
+   */
+  getTodaysDate() {
+    const today = new Date()
+    return this.convertToString(today)
+  }
 }
