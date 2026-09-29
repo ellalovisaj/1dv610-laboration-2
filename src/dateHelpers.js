@@ -21,7 +21,7 @@ export class DateHelpers {
    * @returns {boolean} True if it is a weekend, false if not.
    */
   isWeekend(date) {
-    if (this.getWeekday(date) === 6 || this.getWeekday(date) === 0) {
+    if (this.getWeekday(date) === 5 || this.getWeekday(date) === 6) {
       return true
     }
     return false
