@@ -25,8 +25,13 @@ console.log(`Is ${xmasDay} a Swedish public holiday?
 // Find next holiday from
 const dateInput = '2026-09-30'
 console.log(`The next holiday from ${dateInput} falls on:
-  Expected:\t 2026-10-01
-  Got:\t\t ${calendar.nextHolidayFrom(dateInput)}.\n`)
+  Expected:\t 2026-10-31
+  Got:\t\t ${calendar.nextHolidayFrom(dateInput)}\n`)
+
+const boxingDay = '2026-12-26'
+console.log(`The next holiday from ${boxingDay} falls on:
+  Expected:\t 2027-01-01
+  Got:\t\t ${calendar.nextHolidayFrom(boxingDay)}\n`)
 
 // Check if it is a workday
 const workday = '2026-09-30'
