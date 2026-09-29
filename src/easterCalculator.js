@@ -57,6 +57,12 @@ export class EasterCalculator {
       easterDay = 22 + d + e
       easterMonth = '03'
     }
+
+    // If day is less than 10, add a 0 to date to avoid
+    // time zone issues.
+    if (easterDay < 10) {
+      return new Date(`${year}-${easterMonth}-0${easterDay}`)
+    }
     return new Date(`${year}-${easterMonth}-${easterDay}`)
   }
 }
