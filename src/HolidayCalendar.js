@@ -135,8 +135,19 @@ export class HolidayCalendar {
   }
 
   /**
-   *
-   * @param date
+   * Counts the number of holidays left this year from today's date.
+   * 
+   * @returns {number} The number of holidays left this year.
    */
-  // holidaysLeft() {}
+  holidaysLeft() {
+    const today = new Date()
+    let holidayCount = 0
+
+    for (const holiday of this.#allHolidays) {
+      if (holiday.date.getTime() > today.getTime()) {
+        holidayCount++
+      }
+    }
+    return holidayCount
+  }
 }
