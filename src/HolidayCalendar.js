@@ -1,5 +1,5 @@
 /**
- * Module...
+ * Represents a calendar of public Swedish holidays.
  */
 import { MovingHolidays } from './MovingHolidays.js'
 import { DateHelpers } from './dateHelpers.js'
@@ -47,20 +47,18 @@ export class HolidayCalendar {
         date: new Date(`${this.#year}-${holiday.month}-${holiday.day}`),
       }
       this.#allHolidays.push(tempHoliday)
-      // console.log(tempHoliday)
     }
-    // console.log(this.#allHolidays)
   }
 
   /**
    * Checks if date is a holiday.
    *
-   * @param {object} date - The date to check.
+   * @param {string} dateStr - The date to check.
    * @returns {boolean} - True if it is a holiday, false if not.
    */
-  isHoliday(date) {
+  isHoliday(dateStr) {
     for (const holiday of this.#allHolidays) {
-      if (holiday.date.getTime() === date.getTime()) {
+      if (this.#helpers.convertToString(holiday.date) === dateStr) {
         return true
       }
     }
@@ -72,29 +70,29 @@ export class HolidayCalendar {
    * Returns the next holiday date from the given date. If the given
    * date is a holiday, the next holiday date will be returned.
    *
-   * @param {object} date - The given date
-   * @returns {object} The date of the next holiday
+   * @param {string} dateStr - The given date
+   * @returns {string} The date of the next holiday
    */
-  nextHolidayFrom(date) {
-    let currentDate = this.#helpers.addDays(date, 1)
-
+  nextHolidayFrom(dateStr) {
+    let currentDate = this.#helpers.addDays(this.#helpers.convertToDate(dateStr), 1)
+    
     // For as long as the current date isn't a holiday
-    while (!this.isHoliday(currentDate)) {
+    while (!this.isHoliday(this.#helpers.convertToString(currentDate))) {
       // Add 1 day to current date
       currentDate = this.#helpers.addDays(currentDate, 1)
     }
-    return currentDate
+    return this.#helpers.convertToString(currentDate)
   }
 
   /**
    * Checks if the given date is a workday or not. A workday does
    * not fall on a weekend or a holiday.
    *
-   * @param {object} date - The given date.
+   * @param {string} dateStr - The given date.
    * @returns {boolean} True if it is a workday, false if not.
    */
-  isWorkday(date) {
-    if (this.isHoliday(date) || this.#helpers.isWeekend(date)) {
+  isWorkday(dateStr) {
+    if (this.isHoliday(dateStr) || this.#helpers.isWeekend(this.#helpers.convertToDate(dateStr))) {
       return false
     }
     return true
@@ -104,29 +102,31 @@ export class HolidayCalendar {
    * Counts number of workdays between today's date and the
    * given date. Does not count weekends or holidays.
    *
-   * @param {object} date - The given date.
+   * @param {string} dateStr - The given date.
    * @returns {number} The number of workdays.
    */
-  workdaysUntil(date) {
-    const startDate = new Date()
+  workdaysUntil(dateStr) {
+    const today = this.#helpers.getTodaysDate()
 
-    return this.workdaysBetween(startDate, date)
+    return this.workdaysBetween(today, dateStr)
   }
 
   /**
    * Counts number of workdays between two given dates. Does
    * not count weekends or holidays.
    *
-   * @param {object} startDate - The given start date.
-   * @param {object} endDate - The given end date.
+   * @param {string} startDateStr - The given start date.
+   * @param {string} endDateStr - The given end date.
    * @returns {number} The number of workdays between the dates.
    */
-  workdaysBetween(startDate, endDate) {
-    let currentDate = startDate
+  workdaysBetween(startDateStr, endDateStr) {
+    let currentDate = this.#helpers.convertToDate(startDateStr)
+    const endDate = this.#helpers.convertToDate(endDateStr)
     let workdayCount = 0
 
     while (currentDate.getTime() < endDate.getTime()) {
-      if (this.isWorkday(currentDate)) {
+      const currentDateStr = this.#helpers.convertToString(currentDate)
+      if (this.isWorkday(currentDateStr)) {
         workdayCount++
       }
       currentDate = this.#helpers.addDays(currentDate, 1)
@@ -140,11 +140,11 @@ export class HolidayCalendar {
    * @returns {number} The number of holidays left this year.
    */
   holidaysLeft() {
-    const today = new Date()
+    const todaysDate = this.#helpers.convertToDate(this.#helpers.getTodaysDate())
     let holidayCount = 0
 
     for (const holiday of this.#allHolidays) {
-      if (holiday.date.getTime() > today.getTime()) {
+      if (holiday.date.getTime() > todaysDate.getTime()) {
         holidayCount++
       }
     }
