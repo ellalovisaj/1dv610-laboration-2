@@ -48,13 +48,6 @@ export class HolidayCalendar {
       }
       this.#allHolidays.push(tempHoliday)
     }
-
-    // Add next new year's day to ensure that nextHolidayFrom() always finds
-    // a holiday
-    this.#allHolidays.push({
-      name: 'Next New Year\'s Day',
-      date: new Date(`${this.#year + 1}-01-01`),
-    })
   }
 
   /**
@@ -81,12 +74,19 @@ export class HolidayCalendar {
    */
   nextHolidayFrom(dateStr) {
     let currentDate = this.#helpers.addDays(this.#helpers.convertToDate(dateStr), 1)
-
-    // For as long as the current date isn't a holiday
-    while (!this.isHoliday(this.#helpers.convertToString(currentDate))) {
+    
+    // For as long as the current date is this year and isn't a holiday
+    while (
+      currentDate.getFullYear() === this.#year &&
+      !this.isHoliday(this.#helpers.convertToString(currentDate))
+    ) {
       // Add 1 day to current date
       currentDate = this.#helpers.addDays(currentDate, 1)
     }
+
+    // Will return the next holiday, and if there are no more
+    // holidays this year, it will return the 1st of January
+    // the coming year, which is also a holiday.
     return this.#helpers.convertToString(currentDate)
   }
 
