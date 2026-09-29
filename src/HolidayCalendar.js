@@ -89,7 +89,7 @@ export class HolidayCalendar {
   /**
    * Checks if the given date is a workday or not. A workday does
    * not fall on a weekend or a holiday.
-   * 
+   *
    * @param {object} date - The given date.
    * @returns {boolean} True if it is a workday, false if not.
    */
@@ -104,14 +104,28 @@ export class HolidayCalendar {
    * Counts number of workdays between today's date and the
    * given date. Does not count weekends or holidays.
    *
-   * @param {object} date - The given date
-   * @returns {number} The number of workdays
+   * @param {object} date - The given date.
+   * @returns {number} The number of workdays.
    */
   workdaysUntil(date) {
-    let currentDate = new Date()
+    const startDate = new Date()
+
+    return this.workdaysBetween(startDate, date)
+  }
+
+  /**
+   * Counts number of workdays between two given dates. Does
+   * not count weekends or holidays.
+   *
+   * @param {object} startDate - The given start date.
+   * @param {object} endDate - The given end date.
+   * @returns {number} The number of workdays between the dates.
+   */
+  workdaysBetween(startDate, endDate) {
+    let currentDate = startDate
     let workdayCount = 0
 
-    while (currentDate.getTime() <= date.getTime()) {
+    while (currentDate.getTime() < endDate.getTime()) {
       if (this.isWorkday(currentDate)) {
         workdayCount++
       }
@@ -119,11 +133,6 @@ export class HolidayCalendar {
     }
     return workdayCount
   }
-
-  /**
-   *
-   */
-  // workdaysBetween(date1, date2) {}
 
   /**
    *
