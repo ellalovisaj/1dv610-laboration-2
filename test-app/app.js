@@ -6,76 +6,93 @@ import { HolidayCalendar } from '../src/HolidayCalendar.js'
 
 const calendar = new HolidayCalendar(2026)
 
-// ***********************************
-// TESTS
-// ***********************************
-
-// Check if date is a holiday
+// Dates used in the tests
+const workday = '2026-09-30'
+const weekend = '2026-10-03'
+const octoberDate = '2026-10-31'
 const xmasEve = '2026-12-24'
 const xmasDay = '2026-12-25'
+const boxingDay = '2026-12-26'
 
+// Call test functions
 isHolidayTest()
+nextHolidayFromTest()
+isWorkdayTest()
+workdaysUntilTest()
+workdaysBetweenTest()
+holidaysLeftTest()
 
+/**
+ * Tests the isHoliday() method.
+ */
 function isHolidayTest() {
   console.log('***** isHoliday() *****')
 
-  writeOutTest(
-    `Is ${xmasEve} a Swedish public holiday?`,
-    'false',
-    calendar.isHoliday(xmasEve)
-  )
+  writeOutTest(`Is ${xmasEve} a Swedish public holiday?`, 'false', calendar.isHoliday(xmasEve))
+
+  writeOutTest(`Is ${xmasDay} a Swedish public holiday?`, 'true', calendar.isHoliday(xmasDay))
+}
+
+/**
+ * Tests the nextHolidayFrom() method.
+ */
+function nextHolidayFromTest() {
+  console.log('***** nextHolidayFrom() *****')
+
+  writeOutTest(`The next holiday from ${workday} falls on:`, '2026-10-31', calendar.nextHolidayFrom(workday))
+
+  writeOutTest(`The next holiday from ${boxingDay} falls on:`, '2027-01-01', calendar.nextHolidayFrom(boxingDay))
+}
+
+/**
+ * Tests the isWorkday() method.
+ */
+function isWorkdayTest() {
+  console.log('***** isWorkday() *****')
+
+  writeOutTest(`Is ${workday} a regular workday?`, 'true', calendar.isWorkday(workday))
+
+  writeOutTest(`Is ${weekend} a regular workday?`, 'false', calendar.isWorkday(weekend))
+}
+
+/**
+ * Tests the workdaysUntil() method.
+ */
+function workdaysUntilTest() {
+  console.log('***** workdaysUntil() *****')
 
   writeOutTest(
-    `Is ${xmasDay} a Swedish public holiday?`,
-    'true',
-    calendar.isHoliday(xmasDay)
+    `Workday(s) left until ${octoberDate}:`,
+    '24 (when tested on 2026-09-29)',
+    calendar.workdaysUntil(octoberDate)
   )
 }
 
+/**
+ * Tests the workdaysBetween() method.
+ */
+function workdaysBetweenTest() {
+  console.log('***** workdaysBetween() *****')
 
-// Find next holiday from
-const dateInput = '2026-09-30'
-console.log(`The next holiday from ${dateInput} falls on:
-  Expected:\t 2026-10-31
-  Got:\t\t ${calendar.nextHolidayFrom(dateInput)}\n`)
-
-const boxingDay = '2026-12-26'
-console.log(`The next holiday from ${boxingDay} falls on:
-  Expected:\t 2027-01-01
-  Got:\t\t ${calendar.nextHolidayFrom(boxingDay)}\n`)
-
-// Check if it is a workday
-const workday = '2026-09-30'
-console.log(`Is ${workday} a regular workday?
-  Expected:\t true
-  Got:\t\t ${calendar.isWorkday(workday)}\n`)
-
-const weekend = '2026-10-03'
-console.log(`Is ${weekend} a regular workday?
-  Expected:\t false
-  Got:\t\t ${calendar.isWorkday(weekend)}\n`)
-
-// Find number of working days are left from today until date
-const dateInput2 = '2026-10-31'
-console.log(`Workday(s) left until ${dateInput2}:
-  Expected:\t 24 (when tested on 2026-09-29)
-  Got:\t\t ${calendar.workdaysUntil(dateInput2)}\n`)
-
-// Find number of working days there are between the dates
-console.log(`Workday(s) between until ${dateInput} and ${xmasDay}:
-  Expected:\t 62
-  Got:\t\t ${calendar.workdaysBetween(dateInput, xmasDay)}\n`)
-
-// Find number of holidays left this year
-console.log(`Holiday(s) left this year:
-  Expected:\t 3 (when tested on 2026-09-29)
-  Got:\t\t ${calendar.holidaysLeft()}\n`)
+  writeOutTest(`Workday(s) between until ${workday} and ${xmasDay}:`, '62', calendar.workdaysBetween(workday, xmasDay))
+}
 
 /**
+ * Tests the holidaysLeft() method.
+ */
+function holidaysLeftTest() {
+  console.log('***** holidaysLeft() *****')
+
+  writeOutTest(`Holiday(s) left this year:`, '3 (when tested on 2026-09-29)', calendar.holidaysLeft())
+}
+
+/**
+ * Writes out a test case, containing description, expected result
+ * and actual result.
  *
- * @param description
- * @param expected
- * @param actual
+ * @param {string} description - Test description.
+ * @param {string} expected - The expected result.
+ * @param {string|number|boolean} actual - The actual result.
  */
 function writeOutTest(description, expected, actual) {
   console.log(`${description}`)
