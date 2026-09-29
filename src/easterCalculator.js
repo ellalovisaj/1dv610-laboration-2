@@ -33,7 +33,7 @@ export class EasterCalculator {
         date: this.#helpers.addDays(easter, holiday.daysFromEaster)
       }
       // Add object to array
-      easterBasedHolidays.splice(0, 0, tempEasterHoliday)
+      easterBasedHolidays.push(tempEasterHoliday)
     }
     return easterBasedHolidays
   }

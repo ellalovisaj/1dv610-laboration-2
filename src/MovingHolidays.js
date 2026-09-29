@@ -42,7 +42,7 @@ export class MovingHolidays {
   #getEasterHolidays() {
     const easterHolidays = this.#easterHelpers.getEasterBasedHolidays(this.#year)
     for (const holiday of easterHolidays) {
-      this.#movingHolidays.splice(0, 0, holiday)
+      this.#movingHolidays.push(holiday)
     }
   }
 
@@ -53,8 +53,8 @@ export class MovingHolidays {
   #getWeekdayBasedHolidays() {
     const midsummerObj = this.#getMidsummerDayDate()
     const allSaintsDayObj = this.#getAllSaintsDayDate()
-    this.#movingHolidays.splice(0, 0, midsummerObj)
-    this.#movingHolidays.splice(0, 0, allSaintsDayObj)
+    this.#movingHolidays.push(midsummerObj)
+    this.#movingHolidays.push(allSaintsDayObj)
   }
 
   /**

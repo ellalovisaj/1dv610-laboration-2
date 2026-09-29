@@ -46,7 +46,7 @@ export class HolidayCalendar {
         name: holiday.name,
         date: new Date(`${this.#year}-${holiday.month}-${holiday.day}`),
       }
-      this.#allHolidays.splice(0, 0, tempHoliday)
+      this.#allHolidays.push(tempHoliday)
       // console.log(tempHoliday)
     }
     // console.log(this.#allHolidays)
