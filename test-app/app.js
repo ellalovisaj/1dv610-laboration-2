@@ -14,39 +14,43 @@ const calendar = new HolidayCalendar(2026)
 const xmasEve = '2026-12-24'
 const xmasDay = '2026-12-25'
 
-console.log(`Is ${xmasEve} a Swedish public holiday?`)
-console.log(`${calendar.isHoliday(xmasEve)}`)
-console.log()
+console.log(`Is ${xmasEve} a Swedish public holiday?
+  Expected:\t false
+  Got:\t\t ${calendar.isHoliday(xmasEve)}\n`)
 
-console.log(`Is ${xmasDay} a Swedish public holiday?`)
-console.log(`${calendar.isHoliday(xmasDay)}`)
-console.log()
+console.log(`Is ${xmasDay} a Swedish public holiday?
+  Expected:\t true
+  Got:\t\t ${calendar.isHoliday(xmasDay)}\n`)
 
 // Find next holiday from
 const dateInput = '2026-09-30'
-console.log(`The next holiday from ${dateInput} falls on ${calendar.nextHolidayFrom(dateInput)}.`)
-console.log()
+console.log(`The next holiday from ${dateInput} falls on:
+  Expected:\t 2026-10-01
+  Got:\t\t ${calendar.nextHolidayFrom(dateInput)}.\n`)
 
 // Check if it is a workday
 const workday = '2026-09-30'
-console.log(`Is ${workday} a regular workday?`)
-console.log(calendar.isWorkday(workday))
-console.log()
+console.log(`Is ${workday} a regular workday?
+  Expected:\t true
+  Got:\t\t ${calendar.isWorkday(workday)}\n`)
 
 const weekend = '2026-10-03'
-console.log(`Is ${weekend} a regular workday?`)
-console.log(calendar.isWorkday(weekend))
-console.log()
+console.log(`Is ${weekend} a regular workday?
+  Expected:\t false
+  Got:\t\t ${calendar.isWorkday(weekend)}\n`)
 
 // Find number of working days are left from today until date
-const dateInput2 = '2026-10-05'
-console.log(`There are ${calendar.workdaysUntil(dateInput2)} workday(s) left until ${dateInput2}.`)
-console.log()
+const dateInput2 = '2026-10-31'
+console.log(`Workday(s) left until ${dateInput2}:
+  Expected:\t 24 (when tested on 2026-09-29)
+  Got:\t\t ${calendar.workdaysUntil(dateInput2)}\n`)
 
 // Find number of working days there are between the dates
-console.log(`There are ${calendar.workdaysBetween(dateInput, xmasDay)} workday(s) between ${dateInput} and ${xmasDay}.`)
-console.log()
+console.log(`Workday(s) between until ${dateInput} and ${xmasDay}:
+  Expected:\t 62
+  Got:\t\t ${calendar.workdaysBetween(dateInput, xmasDay)}\n`)
 
 // Find number of holidays left this year
-console.log(`There are ${calendar.holidaysLeft()} holiday(s) left this year.`)
-
+console.log(`Holiday(s) left this year:
+  Expected:\t 3 (when tested on 2026-09-29)
+  Got:\t\t ${calendar.holidaysLeft()}\n`)
