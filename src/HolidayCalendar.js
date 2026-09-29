@@ -2,6 +2,7 @@
  * Module...
  */
 import { MovingHolidays } from './MovingHolidays.js'
+import { DateHelpers } from './dateHelpers.js'
 
 /**
  *
@@ -9,6 +10,7 @@ import { MovingHolidays } from './MovingHolidays.js'
 export class HolidayCalendar {
   #year
   #movingHolidays
+  #helpers = new DateHelpers()
 
   // All fixed holidays, the same date every year
   #fixedHolidays = [
@@ -58,7 +60,6 @@ export class HolidayCalendar {
    */
   isHoliday(date) {
     for (const holiday of this.#allHolidays) {
-      console.log(holiday.date)
       if (holiday.date.getTime() === date.getTime()) {
         return true
       }
@@ -66,10 +67,24 @@ export class HolidayCalendar {
     return false
   }
 
+  // TODO: Will not work when next holiday is in the next year
   /**
-   *
+   * Returns the next holiday date from the given date. If the given
+   * date is a holiday, the next holiday date will be returned.
+   * 
+   * @param {object} date - The given date
+   * @returns {object} The date of the next holiday
    */
-  // nextHoliday() {}
+  nextHolidayFrom(date) {
+    let currentDate = this.#helpers.addDays(date, 1)
+
+    // For as long as the current date isn't a holiday
+    while (!this.isHoliday(currentDate)) {
+      // Add 1 day to current date
+      currentDate = this.#helpers.addDays(currentDate, 1)
+    }
+    return currentDate
+  }
 
   /**
    *
