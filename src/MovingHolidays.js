@@ -24,6 +24,40 @@ export class MovingHolidays {
   }
 
   /**
+   * Calls two functions that saves all moving holidays into
+   * an array.
+   * 
+   * @returns {object[]} An array of holidays, containing name and date.
+   */
+  getMovingHolidays() {
+    this.#getEasterHolidays()
+    this.#getWeekdayBasedHolidays()
+    return this.#movingHolidays
+  }
+
+  /**
+   * Saves the Easter-based holidays into the array that holds
+   * all moving holidays.
+   */
+  #getEasterHolidays() {
+    const easterHolidays = this.#easterHelpers.getEasterBasedHolidays(this.#year)
+    for (const holiday of easterHolidays) {
+      this.#movingHolidays.splice(0, 0, holiday)
+    }
+  }
+
+  /**
+   * Saves the weekday-based holidays into the array that holds
+   * all moving holidays.
+   */
+  #getWeekdayBasedHolidays() {
+    const midsummerObj = this.#getMidsummerDayDate()
+    const allSaintsDayObj = this.#getAllSaintsDayDate()
+    this.#movingHolidays.splice(0, 0, midsummerObj)
+    this.#movingHolidays.splice(0, 0, allSaintsDayObj)
+  }
+
+  /**
    * Gets the date of Midsummer Day. It occurs the day after
    * Midsummer Eve, which falls on the first Friday between the 19th
    * and the 25th of June.
