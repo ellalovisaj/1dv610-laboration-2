@@ -71,7 +71,7 @@ export class HolidayCalendar {
   /**
    * Returns the next holiday date from the given date. If the given
    * date is a holiday, the next holiday date will be returned.
-   * 
+   *
    * @param {object} date - The given date
    * @returns {object} The date of the next holiday
    */
@@ -87,9 +87,38 @@ export class HolidayCalendar {
   }
 
   /**
-   *
+   * Checks if the given date is a workday or not. A workday does
+   * not fall on a weekend or a holiday.
+   * 
+   * @param {object} date - The given date.
+   * @returns {boolean} True if it is a workday, false if not.
    */
-  // workdaysUntil(date) {}
+  isWorkday(date) {
+    if (this.isHoliday(date) || this.#helpers.isWeekend(date)) {
+      return false
+    }
+    return true
+  }
+
+  /**
+   * Counts number of workdays between today's date and the
+   * given date. Does not count weekends or holidays.
+   *
+   * @param {object} date - The given date
+   * @returns {number} The number of workdays
+   */
+  workdaysUntil(date) {
+    let currentDate = new Date()
+    let workdayCount = 0
+
+    while (currentDate.getTime() <= date.getTime()) {
+      if (this.isWorkday(currentDate)) {
+        workdayCount++
+      }
+      currentDate = this.#helpers.addDays(currentDate, 1)
+    }
+    return workdayCount
+  }
 
   /**
    *
@@ -98,6 +127,7 @@ export class HolidayCalendar {
 
   /**
    *
+   * @param date
    */
   // holidaysLeft() {}
 }
