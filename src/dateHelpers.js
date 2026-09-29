@@ -60,4 +60,24 @@ export class DateHelpers {
     newDate.setDate(newDate.getDate() + days)
     return newDate
   }
+
+  /**
+   * Converts date object to string in YYYY-MM-DD format.
+   *
+   * @param {object} date - The given date.
+   * @returns {string} the date as a string.
+   */
+  convertToString(date) {
+    return date.toISOString().split('T')[0]
+  }
+
+  /**
+   * Converts a string into a date object.
+   *
+   * @param {string} dateString - The given date as a string.
+   * @returns {object} the date object.
+   */
+  convertToDate(dateString) {
+    return new Date(dateString)
+  }
 }
