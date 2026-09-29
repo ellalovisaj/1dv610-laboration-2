@@ -2,7 +2,7 @@
  * Test app for HolidayCalendar module.
  */
 
-import { HolidayCalendar } from "../src/HolidayCalendar.js"
+import { HolidayCalendar } from '../src/HolidayCalendar.js'
 
 const calendar = new HolidayCalendar(2026)
 
@@ -14,13 +14,24 @@ const calendar = new HolidayCalendar(2026)
 const xmasEve = '2026-12-24'
 const xmasDay = '2026-12-25'
 
-console.log(`Is ${xmasEve} a Swedish public holiday?
-  Expected:\t false
-  Got:\t\t ${calendar.isHoliday(xmasEve)}\n`)
+isHolidayTest()
 
-console.log(`Is ${xmasDay} a Swedish public holiday?
-  Expected:\t true
-  Got:\t\t ${calendar.isHoliday(xmasDay)}\n`)
+function isHolidayTest() {
+  console.log('***** isHoliday() *****')
+
+  writeOutTest(
+    `Is ${xmasEve} a Swedish public holiday?`,
+    'false',
+    calendar.isHoliday(xmasEve)
+  )
+
+  writeOutTest(
+    `Is ${xmasDay} a Swedish public holiday?`,
+    'true',
+    calendar.isHoliday(xmasDay)
+  )
+}
+
 
 // Find next holiday from
 const dateInput = '2026-09-30'
@@ -59,3 +70,15 @@ console.log(`Workday(s) between until ${dateInput} and ${xmasDay}:
 console.log(`Holiday(s) left this year:
   Expected:\t 3 (when tested on 2026-09-29)
   Got:\t\t ${calendar.holidaysLeft()}\n`)
+
+/**
+ *
+ * @param description
+ * @param expected
+ * @param actual
+ */
+function writeOutTest(description, expected, actual) {
+  console.log(`${description}`)
+  console.log(`Expected:\t ${expected}`)
+  console.log(`Actual:\t\t ${actual}\n`)
+}
