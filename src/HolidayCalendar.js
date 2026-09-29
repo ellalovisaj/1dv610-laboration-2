@@ -53,15 +53,17 @@ export class HolidayCalendar {
   /**
    * Checks if date is a holiday.
    *
-   * @param date
+   * @param {object} date - The date to check.
+   * @returns {boolean} - True if it is a holiday, false if not.
    */
   isHoliday(date) {
-    // TODO: test code
-    if (date === '2026-12-25') {
-      return true
-    } else {
-      return false
+    for (const holiday of this.#allHolidays) {
+      console.log(holiday.date)
+      if (holiday.date.getTime() === date.getTime()) {
+        return true
+      }
     }
+    return false
   }
 
   /**
