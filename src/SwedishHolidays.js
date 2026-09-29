@@ -1,50 +1,93 @@
 /**
- * Represents the Swedish holidays in a specific year.
+ * Represents the Swedish holidays in a given year.
  */
 
 import { DateHelpers } from './dateHelpers.js'
-
-const helpers = new DateHelpers()
-
-// All fixed holidays, the same date every year
-const fixedHolidays = [
-  { name: 'New Years Day', month: 1, day: 1 },
-  { name: 'Epiphany', month: 1, day: 6 },
-  { name: 'First of May', month: 5, day: 1 },
-  { name: 'National Day of Sweden', month: 6, day: 6 },
-  { name: 'Christmas Day', month: 12, day: 25 },
-  { name: 'Boxing Day', month: 12, day: 26 },
-]
+import { EasterCalculator } from './easterCalculator.js'
 
 /**
- * Gets the date of Midsummer Day. It occurs the day after
- * Midsummer Eve, which falls on the first Friday between the 19th
- * and the 25th of June.
  *
- * @param {number} year - The year.
- * @returns {object} The date of Midsummer Day.
  */
-function getMidsummerDayDate(year) {
-  const startDate = new Date(`${year}-06-19`)
-  const endDate = new Date(`${year}-06-25`)
-  const midsummerEve = helpers.findFirstDateOfWeekdayBetween(startDate, endDate, 5)
+export class MovingHolidays {
+  #year
+  #helpers = new DateHelpers()
+  #easterHelpers = new EasterCalculator()
+  #movingHolidays = []
 
-  const midsummerDay = helpers.addDays(midsummerEve, 1)
+  /**
+   * Constructor of the MovingHolidays class.
+   * 
+   * @param {number} year - The year.
+   */
+  constructor(year) {
+    this.#year = year
+  }
+  /**
+   * Calls two functions that saves all moving holidays into
+   * an array.
+   */
+  getMovingHolidays() {
+    this.#getEasterHolidays()
+    this.#getWeekdayBasedHolidays()
+  }
 
-  return midsummerDay
-}
+  /**
+   * Saves the Easter-based holidays into the array that holds
+   * all moving holidays.
+   */
+  #getEasterHolidays() {
+    const easterHolidays = this.#easterHelpers.getEasterBasedHolidays(this.#year)
+    for (const holiday of easterHolidays) {
+      this.#movingHolidays.splice(0, 0, holiday)
+    }
+  }
 
-/**
- * Gets the date of All Saint's Day, which falls on the Saturday
- * between 31st of October and 6th of November.
- *
- * @param {number} year - The year.
- * @returns {object} The date of All Saint's Day.
- */
-function getAllSaintsDayDate(year) {
-  const startDate = new Date(`${year}-10-31`)
-  const endDate = new Date(`${year}-11-07`)
-  const allSaintsDay = helpers.findFirstDateOfWeekdayBetween(startDate, endDate, 6)
+  /**
+   * Saves the weekday-based holidays into the array that holds
+   * all moving holidays.
+   */
+  #getWeekdayBasedHolidays() {
+    const midsummerObj = this.#getMidsummerDayDate()
+    const allSaintsDayObj = this.#getAllSaintsDayDate()
+    this.#movingHolidays.splice(0, 0, midsummerObj)
+    this.#movingHolidays.splice(0, 0, allSaintsDayObj)
+  }
 
-  return allSaintsDay
+  /**
+   * Gets the date of Midsummer Day. It occurs the day after
+   * Midsummer Eve, which falls on the first Friday between the 19th
+   * and the 25th of June.
+   *
+   * @returns {object} The name and date of Midsummer Day.
+   */
+  #getMidsummerDayDate() {
+    const startDate = new Date(`${this.#year}-06-19`)
+    const endDate = new Date(`${this.#year}-06-25`)
+    const midsummerEve = this.#helpers.findFirstDateOfWeekdayBetween(startDate, endDate, 5)
+
+    const midsummerDay = {
+      name: 'Midsummer',
+      date: this.#helpers.addDays(midsummerEve, 1),
+    }
+
+    return midsummerDay
+  }
+
+  /**
+   * Gets the date of All Saint's Day, which falls on the Saturday
+   * between 31st of October and 6th of November.
+   *
+   * @returns {object} The name and date of All Saint's Day.
+   */
+  #getAllSaintsDayDate() {
+    const startDate = new Date(`${this.#year}-10-31`)
+    const endDate = new Date(`${this.#year}-11-07`)
+
+    const allSaintsDay = {
+      name: "All Saint's Day",
+      date: this.#helpers.findFirstDateOfWeekdayBetween(startDate, endDate, 6),
+    }
+
+    return allSaintsDay
+  }
 }
