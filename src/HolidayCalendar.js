@@ -25,11 +25,29 @@ export class HolidayCalendar {
   /**
    * Constructor.
    *
-   * @param {number} year - The given year. 
+   * @param {number} year - The given year.
    */
   constructor(year) {
     this.#year = year
     this.#movingHolidays = new MovingHolidays(year)
+    this.#compileAllHolidays()
+  }
+
+  /**
+   * Compiles all holidays into one array of objects, containing
+   * name and date for each holiday.
+   */
+  #compileAllHolidays() {
+    this.#allHolidays = this.#movingHolidays.getMovingHolidays()
+    for (const holiday of this.#fixedHolidays) {
+      const tempHoliday = {
+        name: holiday.name,
+        date: new Date(`${this.#year}-${holiday.month}-${holiday.day}`),
+      }
+      this.#allHolidays.splice(0, 0, tempHoliday)
+      // console.log(tempHoliday)
+    }
+    // console.log(this.#allHolidays)
   }
 
   /**
