@@ -4,7 +4,7 @@
 export class DateHelpers {
   /**
    * Returns a number representing the weekday of the given date.
-   * (Monday = 1, Tuesday = 2 etc.)
+   * (Sunday = 0, Monday = 1, Tuesday = 2 etc.)
    *
    * @param {object} date - The date to find weekday from.
    * @returns {number} The day of the week in numbers.
@@ -21,7 +21,7 @@ export class DateHelpers {
    * @returns {boolean} True if it is a weekend, false if not.
    */
   isWeekend(date) {
-    if (this.getWeekday(date) === 5 || this.getWeekday(date) === 6) {
+    if (this.getWeekday(date) === 6 || this.getWeekday(date) === 0) {
       return true
     }
     return false
