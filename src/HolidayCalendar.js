@@ -14,7 +14,7 @@ export class HolidayCalendar {
 
   // All fixed holidays, the same date every year
   #fixedHolidays = [
-    { name: 'New Years Day', month: '01', day: '01' },
+    { name: 'New Year\'s Day', month: '01', day: '01' },
     { name: 'Epiphany', month: '01', day: '06' },
     { name: 'First of May', month: '05', day: '01' },
     { name: 'National Day of Sweden', month: '06', day: '06' },
@@ -48,6 +48,13 @@ export class HolidayCalendar {
       }
       this.#allHolidays.push(tempHoliday)
     }
+
+    // Add next new year's day to ensure that nextHolidayFrom() always finds
+    // a holiday
+    this.#allHolidays.push({
+      name: 'Next New Year\'s Day',
+      date: new Date(`${this.#year + 1}-01-01`),
+    })
   }
 
   /**
@@ -65,7 +72,6 @@ export class HolidayCalendar {
     return false
   }
 
-  // TODO: Will not work when next holiday is in the next year
   /**
    * Returns the next holiday date from the given date. If the given
    * date is a holiday, the next holiday date will be returned.
@@ -75,7 +81,7 @@ export class HolidayCalendar {
    */
   nextHolidayFrom(dateStr) {
     let currentDate = this.#helpers.addDays(this.#helpers.convertToDate(dateStr), 1)
-    
+
     // For as long as the current date isn't a holiday
     while (!this.isHoliday(this.#helpers.convertToString(currentDate))) {
       // Add 1 day to current date
@@ -136,7 +142,7 @@ export class HolidayCalendar {
 
   /**
    * Counts the number of holidays left this year from today's date.
-   * 
+   *
    * @returns {number} The number of holidays left this year.
    */
   holidaysLeft() {
