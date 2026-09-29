@@ -15,6 +15,19 @@ export class DateHelpers {
   }
 
   /**
+   * Checks if a given date is a weekend.
+   *
+   * @param {object} date - The given date.
+   * @returns {boolean} True if it is a weekend, false if not.
+   */
+  isWeekend(date) {
+    if (this.getWeekday(date) === 6 || this.getWeekday(date) === 0) {
+      return true
+    }
+    return false
+  }
+
+  /**
    * Finds the first date of the given weekday between the two
    * given dates.
    *
@@ -33,7 +46,6 @@ export class DateHelpers {
       date = this.addDays(date, 1)
     }
     throw new Error(`Weekday ${weekdayToFind} not found in the given range.`)
-    
   }
 
   /**
