@@ -1,11 +1,8 @@
-/**
- * Represents a calendar of public Swedish holidays.
- */
 import { MovingHolidays } from './MovingHolidays.js'
-import { DateHelpers } from './dateHelpers.js'
+import { DateHelpers } from './DateHelpers.js'
 
 /**
- *
+ * Represents a calendar of public Swedish holidays.
  */
 export class HolidayCalendar {
   #year
@@ -14,7 +11,7 @@ export class HolidayCalendar {
 
   // All fixed holidays, the same date every year
   #fixedHolidays = [
-    { name: 'New Year\'s Day', month: '01', day: '01' },
+    { name: "New Year's Day", month: '01', day: '01' },
     { name: 'Epiphany', month: '01', day: '06' },
     { name: 'First of May', month: '05', day: '01' },
     { name: 'National Day of Sweden', month: '06', day: '06' },
@@ -81,12 +78,9 @@ export class HolidayCalendar {
     this.#helpers.validateYear(dateStr, this.#year)
 
     let currentDate = this.#helpers.addDays(this.#helpers.convertToDate(dateStr), 1)
-    
+
     // For as long as the current date is this year and isn't a holiday
-    while (
-      currentDate.getFullYear() === this.#year &&
-      !this.isHoliday(this.#helpers.convertToString(currentDate))
-    ) {
+    while (currentDate.getFullYear() === this.#year && !this.isHoliday(this.#helpers.convertToString(currentDate))) {
       // Add 1 day to current date
       currentDate = this.#helpers.addDays(currentDate, 1)
     }

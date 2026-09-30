@@ -1,7 +1,7 @@
-import { DateHelpers } from './dateHelpers.js'
+import { DateHelpers } from './DateHelpers.js'
 
 /**
- * Easter calculations.
+ * Class that is responsible for all Easter-based holiday calculations.
  */
 export class EasterCalculator {
   #helpers = new DateHelpers()
@@ -22,7 +22,7 @@ export class EasterCalculator {
   getEasterBasedHolidays(year) {
     // Get date of Easter
     const easter = this.#calculateEasterSunday(year)
-    
+
     const easterBasedHolidays = []
 
     // For every easter-based holiday
@@ -30,7 +30,7 @@ export class EasterCalculator {
       // Add name and date to a temporary object
       const tempEasterHoliday = {
         name: holiday.name,
-        date: this.#helpers.addDays(easter, holiday.daysFromEaster)
+        date: this.#helpers.addDays(easter, holiday.daysFromEaster),
       }
       // Add object to array
       easterBasedHolidays.push(tempEasterHoliday)

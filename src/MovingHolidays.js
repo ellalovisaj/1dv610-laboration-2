@@ -1,12 +1,8 @@
-/**
- * Represents the Swedish holidays in a given year.
- */
-
-import { DateHelpers } from './dateHelpers.js'
-import { EasterCalculator } from './easterCalculator.js'
+import { DateHelpers } from './DateHelpers.js'
+import { EasterCalculator } from './EasterCalculator.js'
 
 /**
- *
+ * Represents the moving Swedish holidays in a given year.
  */
 export class MovingHolidays {
   #year
@@ -16,7 +12,7 @@ export class MovingHolidays {
 
   /**
    * Constructor of the MovingHolidays class.
-   * 
+   *
    * @param {number} year - The year.
    */
   constructor(year) {
@@ -26,7 +22,7 @@ export class MovingHolidays {
   /**
    * Calls two functions that saves all moving holidays into
    * an array.
-   * 
+   *
    * @returns {object[]} An array of holidays, containing name and date.
    */
   getMovingHolidays() {
