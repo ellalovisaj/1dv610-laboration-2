@@ -5,6 +5,7 @@
 import { HolidayCalendar } from '../src/HolidayCalendar.js'
 
 const calendar = new HolidayCalendar(2026)
+const calendar2 = new HolidayCalendar(2200)
 
 // Dates used in the tests
 const workday = '2026-09-30'
@@ -13,6 +14,8 @@ const octoberDate = '2026-10-31'
 const xmasEve = '2026-12-24'
 const xmasDay = '2026-12-25'
 const boxingDay = '2026-12-26'
+
+const easter = '2200-04-06'
 
 // Call test functions
 isHolidayTest()
@@ -31,6 +34,8 @@ function isHolidayTest() {
   writeOutTest(`Is ${xmasEve} a Swedish public holiday?`, 'false', calendar.isHoliday(xmasEve))
 
   writeOutTest(`Is ${xmasDay} a Swedish public holiday?`, 'true', calendar.isHoliday(xmasDay))
+
+  writeOutTest(`Is ${easter} a Swedish public holiday?`, 'true', calendar2.isHoliday(easter))
 }
 
 /**
