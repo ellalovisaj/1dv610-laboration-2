@@ -101,7 +101,7 @@ export class DateHelpers {
     const date = this.convertToDate(dateStr)
 
     if (date.getFullYear() !== year) {
-      throw new Error("Date is outside this calendar year.")
+      throw new Error('Date is outside this calendar year.')
     }
   }
 }
