@@ -21,7 +21,7 @@ export class EasterCalculator {
    */
   getEasterBasedHolidays(year) {
     // Get date of Easter
-    const easter = this.#gaussAlgorithm(year)
+    const easter = this.#calculateEasterSunday(year)
     
     const easterBasedHolidays = []
 
@@ -39,14 +39,14 @@ export class EasterCalculator {
   }
 
   /**
-   * A simplified version of Gauss Easter Algorithm. Will get
-   * the wrong date in a few specific cases, as well as the years
-   * before 1900 and after 2199.
+   * Calculates Easter Sunday using a simplified version of Gauss
+   * Easter Algorithm. Will get the wrong date in a few specific cases,
+   * as well as the years before 1900 and after 2199.
    *
    * @param {number} year - The year to calculate Easter in.
    * @returns {object} The date of Easter in the given year.
    */
-  #gaussAlgorithm(year) {
+  #calculateEasterSunday(year) {
     const a = year % 19
     const b = year % 4
     const c = year % 7

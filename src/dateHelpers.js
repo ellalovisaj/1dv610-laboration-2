@@ -1,5 +1,5 @@
 /**
- * Module...
+ * Represents helper functions that works with dates.
  */
 export class DateHelpers {
   /**
@@ -31,15 +31,15 @@ export class DateHelpers {
    * Finds the first date of the given weekday between the two
    * given dates.
    *
-   * @param {object} date1 - The first date in the range.
-   * @param {object} date2 - The last date in the range.
+   * @param {object} startDate - The first date in the range.
+   * @param {object} endDate - The last date in the range.
    * @param {number} weekdayToFind - Number of the weekday to find.
    * @returns {object} The first day of the given weekday.
    */
-  findFirstDateOfWeekdayBetween(date1, date2, weekdayToFind) {
-    let date = new Date(date1)
+  findFirstDateOfWeekdayBetween(startDate, endDate, weekdayToFind) {
+    let date = new Date(startDate)
 
-    while (date.getTime() <= date2.getTime()) {
+    while (date.getTime() <= endDate.getTime()) {
       if (this.getWeekday(date) === weekdayToFind) {
         return date
       }

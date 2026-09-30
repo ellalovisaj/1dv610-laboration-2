@@ -24,9 +24,9 @@ constructorTest()
 isHolidayTest()
 nextHolidayFromTest()
 isWorkdayTest()
-workdaysUntilTest()
+workdaysFromTodayUntilTest()
 workdaysBetweenTest()
-holidaysLeftTest()
+holidaysLeftThisYearTest()
 
 /**
  * Tests the HolidayCalendar constructor.
@@ -88,15 +88,15 @@ function isWorkdayTest() {
 }
 
 /**
- * Tests the workdaysUntil() method.
+ * Tests the workdaysFromTodayUntil() method.
  */
-function workdaysUntilTest() {
-  console.log('***** workdaysUntil() *****')
+function workdaysFromTodayUntilTest() {
+  console.log('***** workdaysFromTodayUntil() *****')
 
   writeOutTest(
     `Workday(s) left until ${octoberDate}:`,
     '24 (when tested on 2026-09-29)',
-    calendar.workdaysUntil(octoberDate)
+    calendar.workdaysFromTodayUntil(octoberDate)
   )
 }
 
@@ -110,12 +110,12 @@ function workdaysBetweenTest() {
 }
 
 /**
- * Tests the holidaysLeft() method.
+ * Tests the holidaysLeftThisYear() method.
  */
-function holidaysLeftTest() {
-  console.log('***** holidaysLeft() *****')
+function holidaysLeftThisYearTest() {
+  console.log('***** holidaysLeftThisYearTest() *****')
 
-  writeOutTest(`Holiday(s) left this year:`, '3 (when tested on 2026-09-29)', calendar.holidaysLeft())
+  writeOutTest(`Holiday(s) left this year:`, '3 (when tested on 2026-09-29)', calendar.holidaysLeftThisYear())
 }
 
 /**

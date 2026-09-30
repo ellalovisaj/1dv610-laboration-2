@@ -120,7 +120,7 @@ export class HolidayCalendar {
    * @param {string} dateStr - The given date.
    * @returns {number} The number of workdays.
    */
-  workdaysUntil(dateStr) {
+  workdaysFromTodayUntil(dateStr) {
     this.#helpers.validateYear(dateStr, this.#year)
 
     const today = this.#helpers.getTodaysDate()
@@ -159,7 +159,7 @@ export class HolidayCalendar {
    *
    * @returns {number} The number of holidays left this year.
    */
-  holidaysLeft() {
+  holidaysLeftThisYear() {
     const todaysDate = this.#helpers.convertToDate(this.#helpers.getTodaysDate())
     let holidayCount = 0
 
