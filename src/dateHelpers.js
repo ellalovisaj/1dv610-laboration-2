@@ -90,4 +90,12 @@ export class DateHelpers {
     const today = new Date()
     return this.convertToString(today)
   }
+
+  dateHasValidYear(dateStr, year) {
+    const date = this.convertToDate(dateStr)
+    
+    if (date.getFullYear() !== year) {
+      throw new Error('Date is outside this calendar\'s year.')
+    }
+  }
 }
