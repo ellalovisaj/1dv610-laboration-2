@@ -1,32 +1,24 @@
 # Test Report
-
-<!--
-    Commit this file to the root of your GitHub repository, alongside your module's code.
--->
-
 ## Summary
 
-*Briefly describe how you tested your module, and why you chose that approach — clearly enough
-that someone else could carry out the same tests.*
-
-Answer:
+The module is tested manually with a test-app (`test-app/app.js`), that calls every public method with pre-defined data. It tests both "happy paths" and exceptions. The test cases can be reproduced by running `npm start`. I chose this method because I thought it was the easiest way to get started, to be able to test it while working with the module, and then I stuck with it.
 
 ## Test Results
 
-**Example** (shows what a filled-in row can look like — remove this example table before
-submitting):
+**Your test results
 
-| What was tested                                                        | How it was tested                                                                                                       | Result                                                                       |
-| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `Jpeg.load(path)` returns a `Picture` instance for a valid image file. | Automated unit test (Vitest): loaded `test-image.jpg` and checked that the return value had `getHeight()`/`getWidth()` methods. | ✅ Passed.                                                                    |
-| `Picture.getPixelAt(x, y)` with coordinates outside the image.         | Manual test via the Test-App's interface: entered a coordinate pair larger than the image's width/height and observed the output. | ❌ Didn't throw an error initially — fixed, now throws a clear exception. |
+| What was tested                             | How it was tested                                                             | Result                                                                        |
+| ------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| new HolidayCalendar(2026)                   | Manual test: called the method and compared actual output to expected output. | ✅ Passed                                                                      |
+| new HolidayCalendar(2200)                   | Manual test: called the method and compared actual output to expected output. | ✅ Passed (Should throw error)                                                 |
+| isHoliday('2026-12-24')                     | Manual test: called the method and compared actual output to expected output. | ✅ Passed                                                                      |
+| isHoliday('2026-12-25')                     | Manual test: called the method and compared actual output to expected output. | ✅ Passed                                                                      |
+| isHoliday('2027-12-25')                     | Manual test: called the method and compared actual output to expected output. | ✅ Showed false when current year was 2026. Will now throw error instead.      |
+| nextHolidayFrom('2026-09-30')               | Manual test: called the method and compared actual output to expected output. | ✅ Passed                                                                      |
+| nextHolidayFrom('2026-12-26')               | Manual test: called the method and compared actual output to expected output. | ✅ Passed                                                                      |
+| isWorkday('2026-09-30')                     | Manual test: called the method and compared actual output to expected output. | ✅ Passed                                                                      |
+| isWorkday('2026-10-03')                     | Manual test: called the method and compared actual output to expected output. | ✅ Passed                                                                      |
+| workdaysUntil('2026-10-31')                 | Manual test: called the method and compared actual output to expected output. | ✅ Passed (Depends on when the testing occurs. Passed when testing 2026-09-29) |
+| workdaysBetween('2026-09-30', '2026-12-25') | Manual test: called the method and compared actual output to expected output. | ✅ Passed                                                                      |
+| holidaysLeft()                              | Manual test: called the method and compared actual output to expected output. | ✅ Passed (Depends on when the testing occurs. Passed when testing 2026-09-29) |
 
-**Your test results:**
-
-| What was tested | How it was tested | Result |
-| ---------------- | ------------------ | ------- |
-|                   |                    |         |
-|                   |                    |         |
-|                   |                    |         |
-|                   |                    |         |
-|                   |                    |         |
