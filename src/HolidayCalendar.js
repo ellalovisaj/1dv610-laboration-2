@@ -30,6 +30,9 @@ export class HolidayCalendar {
    * @param {number} year - The given year.
    */
   constructor(year) {
+    if (!Number.isInteger(year) || year < 1900 || year > 2199) {
+      throw new Error('The calendar module only support the years from 1900 to 2199.')
+    }
     this.#year = year
     this.#movingHolidays = new MovingHolidays(year)
     this.#compileAllHolidays()
@@ -57,6 +60,8 @@ export class HolidayCalendar {
    * @returns {boolean} - True if it is a holiday, false if not.
    */
   isHoliday(dateStr) {
+    this.#helpers.validateYear(dateStr, this.#year)
+
     for (const holiday of this.#allHolidays) {
       if (this.#helpers.convertToString(holiday.date) === dateStr) {
         return true
@@ -73,6 +78,8 @@ export class HolidayCalendar {
    * @returns {string} The date of the next holiday
    */
   nextHolidayFrom(dateStr) {
+    this.#helpers.validateYear(dateStr, this.#year)
+
     let currentDate = this.#helpers.addDays(this.#helpers.convertToDate(dateStr), 1)
     
     // For as long as the current date is this year and isn't a holiday
@@ -98,6 +105,8 @@ export class HolidayCalendar {
    * @returns {boolean} True if it is a workday, false if not.
    */
   isWorkday(dateStr) {
+    this.#helpers.validateYear(dateStr, this.#year)
+
     if (this.isHoliday(dateStr) || this.#helpers.isWeekend(this.#helpers.convertToDate(dateStr))) {
       return false
     }
@@ -112,6 +121,8 @@ export class HolidayCalendar {
    * @returns {number} The number of workdays.
    */
   workdaysUntil(dateStr) {
+    this.#helpers.validateYear(dateStr, this.#year)
+
     const today = this.#helpers.getTodaysDate()
 
     return this.workdaysBetween(today, dateStr)
@@ -126,6 +137,9 @@ export class HolidayCalendar {
    * @returns {number} The number of workdays between the dates.
    */
   workdaysBetween(startDateStr, endDateStr) {
+    this.#helpers.validateYear(startDateStr, this.#year)
+    this.#helpers.validateYear(endDateStr, this.#year)
+
     let currentDate = this.#helpers.convertToDate(startDateStr)
     const endDate = this.#helpers.convertToDate(endDateStr)
     let workdayCount = 0

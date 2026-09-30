@@ -74,16 +74,16 @@ export class DateHelpers {
   /**
    * Converts a string into a date object.
    *
-   * @param {string} dateString - The given date as a string.
+   * @param {string} dateStr - The given date as a string.
    * @returns {object} the date object.
    */
-  convertToDate(dateString) {
-    return new Date(dateString)
+  convertToDate(dateStr) {
+    return new Date(dateStr)
   }
 
   /**
    * Get today's date and return it as a date string.
-   * 
+   *
    * @returns {string} Today's date as a string.
    */
   getTodaysDate() {
@@ -91,11 +91,17 @@ export class DateHelpers {
     return this.convertToString(today)
   }
 
-  dateHasValidYear(dateStr, year) {
+  /**
+   * Checks if date falls in current calendar's year.
+   *
+   * @param {string} dateStr - The given date as a string.
+   * @param {number} year - The current calendar year.
+   */
+  validateYear(dateStr, year) {
     const date = this.convertToDate(dateStr)
-    
+
     if (date.getFullYear() !== year) {
-      throw new Error('Date is outside this calendar\'s year.')
+      throw new Error("Date is outside this calendar year.")
     }
   }
 }
