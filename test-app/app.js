@@ -4,8 +4,10 @@
 
 import { HolidayCalendar } from '../src/HolidayCalendar.js'
 
-const calendar = new HolidayCalendar(2026)
-const calendar2 = new HolidayCalendar(2200)
+const year = 2026
+const invalidYear = 2200
+
+const calendar = new HolidayCalendar(year)
 
 // Dates used in the tests
 const workday = '2026-09-30'
@@ -15,9 +17,10 @@ const xmasEve = '2026-12-24'
 const xmasDay = '2026-12-25'
 const boxingDay = '2026-12-26'
 
-const easter = '2200-04-06'
+const invalidYearDate = '2027-12-25'
 
 // Call test functions
+constructorTest()
 isHolidayTest()
 nextHolidayFromTest()
 isWorkdayTest()
@@ -26,16 +29,40 @@ workdaysBetweenTest()
 holidaysLeftTest()
 
 /**
+ * Tests the HolidayCalendar constructor.
+ */
+function constructorTest() {
+  try {
+    new HolidayCalendar(year)
+    writeOutTest(`Is ${year} a valid year?`, 'No error thrown', 'No error thrown')
+  } catch (error) {
+    writeOutTest(`Is ${year} a valid year?`, 'No error thrown', `Error thrown: ${error}`)
+  }
+
+  try {
+    new HolidayCalendar(invalidYear)
+    writeOutErrorTest(`Is ${invalidYear} a valid year?`, null)
+  } catch (error) {
+    writeOutErrorTest(`Is ${invalidYear} a valid year?`, error)
+  }
+}
+
+/**
  * Tests the isHoliday() method.
  */
 function isHolidayTest() {
   console.log('***** isHoliday() *****')
 
-  writeOutTest(`Is ${xmasEve} a Swedish public holiday?`, 'false', calendar.isHoliday(xmasEve))
+  writeOutTest(`Is ${xmasEve} a Swedish public holiday in ${year}?`, 'false', calendar.isHoliday(xmasEve))
 
-  writeOutTest(`Is ${xmasDay} a Swedish public holiday?`, 'true', calendar.isHoliday(xmasDay))
+  writeOutTest(`Is ${xmasDay} a Swedish public holiday in ${year}?`, 'true', calendar.isHoliday(xmasDay))
 
-  writeOutTest(`Is ${easter} a Swedish public holiday?`, 'true', calendar2.isHoliday(easter))
+  try {
+    calendar.isHoliday(invalidYearDate)
+    writeOutErrorTest(`Is ${invalidYearDate} a Swedish public holiday in ${year}?`, null)
+  } catch (error) {
+    writeOutErrorTest(`Is ${invalidYearDate} a Swedish public holiday in ${year}?`, error)
+  }
 }
 
 /**
@@ -103,4 +130,22 @@ function writeOutTest(description, expected, actual) {
   console.log(`${description}`)
   console.log(`Expected:\t ${expected}`)
   console.log(`Actual:\t\t ${actual}\n`)
+}
+
+/**
+ * Writes out a test case where the expected result is an error.
+ * If there is an error, the error message will be written.
+ *
+ * @param {string} description - Test description.
+ * @param {Error|null} error - The error, and null if there are no errors.
+ */
+function writeOutErrorTest(description, error) {
+  console.log(`${description}`)
+  console.log('Expected:\t Error thrown.')
+
+  if (error) {
+    console.log(`Actual:\t\t Error thrown: ${error.message}\n`)
+  } else {
+    console.log('Actual:\t\t No error thrown.\n')
+  }
 }
