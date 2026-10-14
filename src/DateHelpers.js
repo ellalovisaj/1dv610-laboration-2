@@ -10,7 +10,7 @@ export class DateHelpers {
    * @returns {number} The day of the week in numbers.
    */
   getWeekday(date) {
-    const weekday = date.getDay()
+    const weekday = date.getUTCDay()
     return weekday
   }
 
@@ -57,7 +57,7 @@ export class DateHelpers {
    */
   addDays(date, days) {
     const newDate = new Date(date)
-    newDate.setDate(newDate.getDate() + days)
+    newDate.setUTCDate(newDate.getUTCDate() + days)
     return newDate
   }
 
@@ -88,7 +88,12 @@ export class DateHelpers {
    */
   getTodaysDate() {
     const today = new Date()
-    return this.convertToString(today)
+
+    const year = today.getFullYear()
+    const month = today.getMonth() + 1
+    const day = today.getDate()
+
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
   }
 
   /**
@@ -100,7 +105,7 @@ export class DateHelpers {
   validateYear(dateStr, year) {
     const date = this.convertToDate(dateStr)
 
-    if (date.getFullYear() !== year) {
+    if (date.getUTCFullYear() !== year) {
       throw new Error('Date is outside this calendar year.')
     }
   }
