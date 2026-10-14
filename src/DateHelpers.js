@@ -88,7 +88,12 @@ export class DateHelpers {
    */
   getTodaysDate() {
     const today = new Date()
-    return this.convertToString(today)
+
+    const year = today.getFullYear()
+    const month = today.getMonth() + 1
+    const day = today.getDate()
+
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
   }
 
   /**
