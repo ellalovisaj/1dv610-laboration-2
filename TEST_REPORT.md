@@ -1,11 +1,16 @@
 # Test Report
-## Summary
+#### Edit (2026-10-14)
+The module is now tested with automatic tests using vitest. To run tests `npm test` is used.
 
+![tests](public/Screenshot%202026-10-14%20at%2019.08.33.png)
+
+There is currently a bug that cause errors when trying to initialize a new calendar of a few different years. 2027 is one of them, which is why that test, as of now, will not pass.
+
+## Summary
 The module is tested manually with a test-app (`test-app/app.js`), that calls every public method with pre-defined data. It tests both "happy paths" and exceptions. The test cases can be reproduced by running `npm start`. I chose this method because I thought it was the easiest way to get started, to be able to test it while working with the module, and then I stuck with it.
 
-## Test Results
 
-**Your test results
+## Test Results
 
 | What was tested                             | How it was tested                                                             | Result                                                                        |
 | ------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
