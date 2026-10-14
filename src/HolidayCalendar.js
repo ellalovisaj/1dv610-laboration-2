@@ -80,7 +80,10 @@ export class HolidayCalendar {
     let currentDate = this.#helpers.addDays(this.#helpers.convertToDate(dateStr), 1)
 
     // For as long as the current date is this year and isn't a holiday
-    while (currentDate.getFullYear() === this.#year && !this.isHoliday(this.#helpers.convertToString(currentDate))) {
+    while (
+      currentDate.getUTCFullYear() === this.#year &&
+      !this.isHoliday(this.#helpers.convertToString(currentDate))
+    ) {
       // Add 1 day to current date
       currentDate = this.#helpers.addDays(currentDate, 1)
     }
