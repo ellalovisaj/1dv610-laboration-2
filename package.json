@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "node test-app/app.js",
+    "test": "vitest run",
     "lint": "eslint ./src --cache",
     "lint:fix": "eslint ./src --cache --fix",
     "format": "prettier --write ./src",
@@ -50,5 +51,8 @@
   "bugs": {
     "url": "https://github.com/ellalovisaj/1dv610-laboration-2/issues"
   },
-  "homepage": "https://github.com/ellalovisaj/1dv610-laboration-2#readme"
+  "homepage": "https://github.com/ellalovisaj/1dv610-laboration-2#readme",
+  "dependencies": {
+    "vitest": "^5.0.3"
+  }
 }
