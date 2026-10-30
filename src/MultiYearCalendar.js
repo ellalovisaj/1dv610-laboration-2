@@ -2,7 +2,7 @@ import { HolidayCalendar } from './HolidayCalendar.js'
 
 // TODO: workdaysBetween counts startDate but not endDate. Change to a new method that counts all days.
 /**
- * 
+ *
  */
 export class MultiYearCalendar {
   #holidayCalendars = new Map()
@@ -34,7 +34,7 @@ export class MultiYearCalendar {
   #workdaysBetweenDifferentYears(startDate, endDate) {
     const startYear = this.#getYearOf(startDate)
     const endYear = this.#getYearOf(endDate)
-    
+
     let workdayCount = this.#workdaysUntilEndOfYear(startDate)
 
     // For any years between start and end year
@@ -43,14 +43,17 @@ export class MultiYearCalendar {
     }
 
     workdayCount += this.#workdaysFromStartOfYear(endDate)
-    
+
     return workdayCount
   }
 
   #workdaysOfFullYear(year) {
-    const workdayCount = this.#getCalendarFor(year).workdaysBetween(this.#firstDayOfYear(year), this.#lastDayOfYear(year))
+    const workdayCount = this.#getCalendarFor(year).workdaysBetween(
+      this.#firstDayOfYear(year),
+      this.#lastDayOfYear(year)
+    )
 
-    // TODO: Change to new method that counts all days and then remove added day 
+    // TODO: Change to new method that counts all days and then remove added day
     return this.isWorkday(this.#lastDayOfYear(year)) ? workdayCount + 1 : workdayCount
   }
 
@@ -58,7 +61,7 @@ export class MultiYearCalendar {
     const year = this.#getYearOf(startDate)
     const workdayCount = this.#getCalendarFor(year).workdaysBetween(startDate, this.#lastDayOfYear(year))
 
-    // TODO: Change to new method that counts all days and then remove added day 
+    // TODO: Change to new method that counts all days and then remove added day
     return this.isWorkday(this.#lastDayOfYear(year)) ? workdayCount + 1 : workdayCount
   }
 
