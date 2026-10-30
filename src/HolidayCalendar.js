@@ -8,6 +8,7 @@ export class HolidayCalendar {
   #year
   #movingHolidays
   #helpers = new DateHelpers()
+  #holidayDateStrings = []
 
   // All fixed holidays, the same date every year
   #fixedHolidays = [
@@ -19,9 +20,6 @@ export class HolidayCalendar {
     { name: 'Boxing Day', month: '12', day: '26' },
   ]
 
-  #holidayDateStrings = []
-  #allHolidays = []
-
   /**
    * Constructor.
    *
@@ -31,10 +29,11 @@ export class HolidayCalendar {
     if (!Number.isInteger(year) || year < 1900 || year > 2199) {
       throw new Error('The calendar module only support the years from 1900 to 2199.')
     }
+
     this.#year = year
     this.#movingHolidays = new MovingHolidays(year)
-    this.#compileAllHolidays()
-    this.#compileHolidayDateStrings()
+    const allHolidays = this.#compileAllHolidays()
+    this.#compileHolidayDateStrings(allHolidays)
   }
 
   /**
@@ -47,11 +46,11 @@ export class HolidayCalendar {
       date: new Date(`${this.#year}-${holiday.month}-${holiday.day}`),
     }))
 
-    this.#allHolidays = [...fixedHolidays, ...this.#movingHolidays.getMovingHolidays()]
+    return [...fixedHolidays, ...this.#movingHolidays.getMovingHolidays()]
   }
 
-  #compileHolidayDateStrings() {
-    this.#holidayDateStrings = this.#allHolidays.map((holiday) => this.#helpers.convertToString(holiday.date)).sort()
+  #compileHolidayDateStrings(allHolidays) {
+    this.#holidayDateStrings = allHolidays.map((holiday) => this.#helpers.convertToString(holiday.date)).sort()
   }
 
   /**
@@ -91,10 +90,7 @@ export class HolidayCalendar {
   isWorkday(dateStr) {
     this.#helpers.validateYear(dateStr, this.#year)
 
-    if (this.isHoliday(dateStr) || this.#helpers.isWeekend(this.#helpers.convertToDate(dateStr))) {
-      return false
-    }
-    return true
+    return !this.isHoliday(dateStr) && !this.#helpers.isWeekend(this.#helpers.convertToDate(dateStr))
   }
 
   /**
@@ -109,9 +105,10 @@ export class HolidayCalendar {
    * @returns {number} The number of workdays.
    */
   workdaysFromTodayUntil(dateStr) {
-    this.#helpers.validateYear(dateStr, this.#year)
-
     const today = this.#helpers.getTodaysDate()
+
+    this.#helpers.validateYear(dateStr, this.#year)
+    this.#helpers.validateYear(today, this.#year)
 
     return this.#findWorkdays(this.#excludeEndDate(this.#getDateStringsInRange(today, dateStr))).length
   }
@@ -185,15 +182,7 @@ export class HolidayCalendar {
    * @returns {number} The number of holidays left this year.
    */
   holidaysLeftThisYear() {
-    const todaysDate = this.#helpers.convertToDate(this.#helpers.getTodaysDate())
-    let holidayCount = 0
-
-    for (const holiday of this.#allHolidays) {
-      if (holiday.date.getTime() > todaysDate.getTime()) {
-        holidayCount++
-      }
-    }
-    return holidayCount
+    return this.#holidayDateStrings.filter((date) => date > this.#helpers.getTodaysDate()).length
   }
 
   #getDateStringsInRange(startDateStr, endDateStr) {
