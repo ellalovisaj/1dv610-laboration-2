@@ -126,6 +126,10 @@ export class HolidayCalendar {
    * Counts number of workdays between two given dates. Does
    * not count weekends or holidays.
    *
+   * Caution: This method counts the start date but not the end date.
+   *
+   * @deprecated Use workdaysInPeriod or workdaysAfterUntil instead.
+   *
    * @param {string} startDateStr - The given start date.
    * @param {string} endDateStr - The given end date.
    * @returns {number} The number of workdays between the dates.
@@ -134,18 +138,28 @@ export class HolidayCalendar {
     this.#helpers.validateYear(startDateStr, this.#year)
     this.#helpers.validateYear(endDateStr, this.#year)
 
-    let currentDate = this.#helpers.convertToDate(startDateStr)
-    const endDate = this.#helpers.convertToDate(endDateStr)
-    let workdayCount = 0
+    const updatedEndDate = this.#helpers.addDays(this.#helpers.convertToDate(endDateStr), -1)
+    const updatedEndDateStr = this.#helpers.convertToString(updatedEndDate)
 
-    while (currentDate.getTime() < endDate.getTime()) {
-      const currentDateStr = this.#helpers.convertToString(currentDate)
-      if (this.isWorkday(currentDateStr)) {
-        workdayCount++
-      }
-      currentDate = this.#helpers.addDays(currentDate, 1)
-    }
-    return workdayCount
+    return this.#findWorkdays(this.#getDateStringsInRange(startDateStr, updatedEndDateStr)).length
+  }
+
+  /**
+   * Counts number of workdays in the given period, including the given end date
+   * if it is a workday. Does not count the start date, weekends or holidays.
+   *
+   * @param {string} startDateStr - The given start date.
+   * @param {string} endDateStr - The given end date.
+   * @returns {number} The number of workdays in the period.
+   */
+  workdaysAfterUntil(startDateStr, endDateStr) {
+    this.#helpers.validateYear(startDateStr, this.#year)
+    this.#helpers.validateYear(endDateStr, this.#year)
+
+    const updatedStartDate = this.#helpers.addDays(this.#helpers.convertToDate(startDateStr), 1)
+    const updatedStartDateStr = this.#helpers.convertToString(updatedStartDate)
+
+    return this.#findWorkdays(this.#getDateStringsInRange(updatedStartDateStr, endDateStr)).length
   }
 
   /**
