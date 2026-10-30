@@ -238,6 +238,44 @@ describe('workdaysBetween', () => {
   })
 })
 
+describe('workdaysInPeriod', () => {
+  test('should not count weekends', () => {
+    const calendar = new HolidayCalendar(2026)
+    const startDate = '2026-10-09'
+    const endDate = '2026-10-11'
+
+    expect(calendar.workdaysInPeriod(startDate, endDate)).toBe(1)
+  })
+
+  test('should not count holidays', () => {
+    const calendar = new HolidayCalendar(2026)
+    const startDate = '2026-12-23'
+    const endDate = '2026-12-26'
+
+    expect(calendar.workdaysInPeriod(startDate, endDate)).toBe(2)
+  })
+
+  test('should account for leap years', () => {
+    const calendar = new HolidayCalendar(2028)
+    const startDate = '2028-02-28'
+    const endDate = '2028-03-01'
+
+    expect(calendar.workdaysInPeriod(startDate, endDate)).toBe(3)
+  })
+
+  test('should throw error when giving an invalid date', () => {
+    const calendar = new HolidayCalendar(2026)
+
+    expect(() => calendar.workdaysInPeriod('2026-13-25')).toThrow()
+  })
+
+  test('should throw error when giving an invalid year', () => {
+    const calendar = new HolidayCalendar(2026)
+
+    expect(() => calendar.workdaysInPeriod('2024-10-22')).toThrow()
+  })
+})
+
 describe('holidaysLeftThisYear', () => {
   beforeEach(() => {
     vi.useFakeTimers()

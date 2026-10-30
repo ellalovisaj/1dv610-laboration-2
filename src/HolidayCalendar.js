@@ -149,6 +149,21 @@ export class HolidayCalendar {
   }
 
   /**
+   * Counts number of workdays in the given period, including the given
+   * dates if they are workdays. Does not count weekends or holidays.
+   *
+   * @param {string} startDateStr - The given start date.
+   * @param {string} endDateStr - The given end date.
+   * @returns {number} The number of workdays in the period.
+   */
+  workdaysInPeriod(startDateStr, endDateStr) {
+    this.#helpers.validateYear(startDateStr, this.#year)
+    this.#helpers.validateYear(endDateStr, this.#year)
+
+    return this.#findWorkdays(this.#getDateStringsInRange(startDateStr, endDateStr)).length
+  }
+
+  /**
    * Counts the number of holidays left this year from today's date.
    *
    * @returns {number} The number of holidays left this year.
@@ -163,5 +178,29 @@ export class HolidayCalendar {
       }
     }
     return holidayCount
+  }
+
+  #getDateStringsInRange(startDateStr, endDateStr) {
+    const endDate = this.#helpers.convertToDate(endDateStr)
+    const startDate = this.#helpers.convertToDate(startDateStr)
+    const dates = []
+
+    for (let date = startDate; date <= endDate; date = this.#helpers.addDays(date, 1)) {
+      dates.push(this.#helpers.convertToString(date))
+    }
+
+    return dates
+  }
+
+  #findWorkdays(dateStrings) {
+    const workdayDateStrings = []
+
+    for (const dateString of dateStrings) {
+      if (this.isWorkday(dateString)) {
+        workdayDateStrings.push(dateString)
+      }
+    }
+
+    return workdayDateStrings
   }
 }
