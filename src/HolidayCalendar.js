@@ -117,9 +117,12 @@ export class HolidayCalendar {
   workdaysFromTodayUntil(dateStr) {
     this.#helpers.validateYear(dateStr, this.#year)
 
+    const updatedDate = this.#helpers.addDays(this.#helpers.convertToDate(dateStr), -1)
+    const updatedDateStr = this.#helpers.convertToString(updatedDate)
+
     const today = this.#helpers.getTodaysDate()
 
-    return this.workdaysBetween(today, dateStr)
+    return this.#findWorkdays(this.#getDateStringsInRange(today, updatedDateStr)).length
   }
 
   /**
