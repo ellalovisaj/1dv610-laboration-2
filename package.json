@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node test-app/app.js",
-    "test": "vitest run",
+    "test": "TZ=Europe/Stockholm vitest run",
     "lint": "eslint ./src --cache",
     "lint:fix": "eslint ./src --cache --fix",
     "format": "prettier --write ./src",
