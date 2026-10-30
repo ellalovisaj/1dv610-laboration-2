@@ -2,7 +2,7 @@
 #### Edit (2026-10-14)
 The module is now tested with automatic tests using vitest. To run tests `npm test` is used.
 
-![tests](public/Screenshot%202026-10-14%20at%2019.08.33.png)
+![tests](docs/images/Screenshot%202026-10-14%20at%2019.08.33.png)
 
 There is currently a bug that cause errors when trying to initialize a new calendar of a few different years. 2027 is one of them, which is why that test, as of now, will not pass.
 
