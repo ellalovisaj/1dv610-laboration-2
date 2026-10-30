@@ -37,7 +37,8 @@
     "eslint-plugin-regexp": "^3.3.0",
     "eslint-plugin-security": "^4.0.1",
     "globals": "^17.12.0",
-    "prettier": "^3.9.6"
+    "prettier": "^3.9.6",
+    "vitest": "^5.0.5"
   },
   "directories": {
     "test": "test"
@@ -51,8 +52,5 @@
   "bugs": {
     "url": "https://github.com/ellalovisaj/1dv610-laboration-2/issues"
   },
-  "homepage": "https://github.com/ellalovisaj/1dv610-laboration-2#readme",
-  "dependencies": {
-    "vitest": "^5.0.3"
-  }
+  "homepage": "https://github.com/ellalovisaj/1dv610-laboration-2#readme"
 }
