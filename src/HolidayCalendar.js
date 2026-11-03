@@ -2,6 +2,8 @@ import { MovingHolidays } from './MovingHolidays.js'
 import { DateHelpers } from './DateHelpers.js'
 
 /**
+ * @deprecated Previoulsy the main public class. Please use MultiYearCalendar instead.
+ * 
  * Represents a calendar of public Swedish holidays.
  */
 export class HolidayCalendar {
