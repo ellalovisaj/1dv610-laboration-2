@@ -1,6 +1,8 @@
 import { HolidayCalendar } from './HolidayCalendar.js'
+import { DateHelpers } from './DateHelpers.js'
 
 export class MultiYearCalendar {
+  #helpers = new DateHelpers()
   #holidayCalendars = new Map()
 
   isHoliday(date) {
@@ -18,16 +20,20 @@ export class MultiYearCalendar {
     return calendar.isWorkday(date)
   }
 
-  workdaysBetween(startDate, endDate) {
+  workdaysInPeriod(startDate, endDate) {
     if (this.#getYearOf(startDate) !== this.#getYearOf(endDate)) {
-      return this.#workdaysBetweenDifferentYears(startDate, endDate)
+      return this.#workdaysInPeriodAcrossYears(startDate, endDate)
     }
 
     const calendar = this.#getCalendarFor(this.#getYearOf(startDate))
     return calendar.workdaysInPeriod(startDate, endDate)
   }
 
-  #workdaysBetweenDifferentYears(startDate, endDate) {
+  workdaysAfterUntil(startDate, endDate) {
+    return this.workdaysInPeriod(this.#helpers.addDaysToString(startDate, 1), endDate)
+  }
+
+  #workdaysInPeriodAcrossYears(startDate, endDate) {
     const startYear = this.#getYearOf(startDate)
     const endYear = this.#getYearOf(endDate)
 
