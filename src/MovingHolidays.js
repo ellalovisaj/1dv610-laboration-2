@@ -8,7 +8,6 @@ export class MovingHolidays {
   #year
   #helpers = new DateHelpers()
   #easterHelpers = new EasterCalculator()
-  #movingHolidays = []
 
   /**
    * Constructor of the MovingHolidays class.
@@ -20,37 +19,26 @@ export class MovingHolidays {
   }
 
   /**
-   * Calls two functions that saves all moving holidays into
-   * an array.
+   * Returns an array of all holidays that doesn't have a fixed date.
    *
    * @returns {object[]} An array of holidays, containing name and date.
    */
   getMovingHolidays() {
-    this.#getEasterHolidays()
-    this.#getWeekdayBasedHolidays()
-    return [...this.#movingHolidays]
+    return [...this.#getEasterHolidays(), ...this.#getWeekdayBasedHolidays()]
   }
 
   /**
-   * Saves the Easter-based holidays into the array that holds
-   * all moving holidays.
+   * Returns the Easter-based holidays.
    */
   #getEasterHolidays() {
-    const easterHolidays = this.#easterHelpers.getEasterBasedHolidays(this.#year)
-    for (const holiday of easterHolidays) {
-      this.#movingHolidays.push(holiday)
-    }
+    return this.#easterHelpers.getEasterBasedHolidays(this.#year)
   }
 
   /**
-   * Saves the weekday-based holidays into the array that holds
-   * all moving holidays.
+   * Returns the weekday-based holidays.
    */
   #getWeekdayBasedHolidays() {
-    const midsummerObj = this.#getMidsummerDayDate()
-    const allSaintsDayObj = this.#getAllSaintsDayDate()
-    this.#movingHolidays.push(midsummerObj)
-    this.#movingHolidays.push(allSaintsDayObj)
+    return [this.#getMidsummerDayDate(), this.#getAllSaintsDayDate()]
   }
 
   /**
