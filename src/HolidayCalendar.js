@@ -172,7 +172,7 @@ export class HolidayCalendar {
 
   /**
    * @deprecated Use workdaysAfterTodayUntil instead.
-   * 
+   *
    * Counts number of workdays between today's date and the
    * given date. Does not count weekends or holidays.
    *
@@ -192,7 +192,7 @@ export class HolidayCalendar {
 
   /**
    * @deprecated Use workdaysInPeriod or workdaysAfterUntil instead.
-   * 
+   *
    * Counts number of workdays between two given dates. Does
    * not count weekends or holidays.
    *
