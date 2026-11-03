@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
 import { MultiYearCalendar } from '../src/MultiYearCalendar.js'
 
 describe('MultiYearCalendar', () => {
@@ -143,6 +143,12 @@ describe('MultiYearCalendar', () => {
       expect(calendar.workdaysInPeriod(startDate, endDate)).toBe(52)
     })
 
+    test('should return 0 when the end date is in an earlier year', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.workdaysInPeriod('2027-01-05', '2026-12-30')).toBe(0)
+    })
+
     test('should count workdays in a period that spans over multiple years', () => {
       const calendar = new MultiYearCalendar()
       const startDate = '2025-09-02'
@@ -230,10 +236,92 @@ describe('MultiYearCalendar', () => {
       expect(calendar.workdaysAfterUntil(startDate, endDate)).toBe(1184)
     })
 
+    test('should return 0 when start and end date are December 31', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.workdaysAfterUntil('2026-12-31', '2026-12-31')).toBe(0)
+    })
+
     test('should throw error when giving an invalid date', () => {
       const calendar = new MultiYearCalendar()
 
       expect(() => calendar.workdaysAfterUntil('2026-13-25', '2026-12-31')).toThrow()
+    })
+  })
+
+  describe('workdaysAfterTodayUntil', () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    test('should count workdays after today until the given date', () => {
+      vi.setSystemTime(new Date('2026-10-28T12:00:00'))
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.workdaysAfterTodayUntil('2026-10-30')).toBe(2)
+    })
+
+    test('should count workdays into the next year', () => {
+      vi.setSystemTime(new Date('2026-12-21T12:00:00'))
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.workdaysAfterTodayUntil('2027-01-08')).toBe(11)
+    })
+
+    test('should return 0 when the given date is today', () => {
+      vi.setSystemTime(new Date('2026-10-28T12:00:00'))
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.workdaysAfterTodayUntil('2026-10-28')).toBe(0)
+    })
+
+    test('should return 0 when the given date is in a previous year', () => {
+      vi.setSystemTime(new Date('2026-10-28T12:00:00'))
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.workdaysAfterTodayUntil('2025-12-01')).toBe(0)
+    })
+  })
+
+  describe('holidaysLeftThisYear', () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    test('should count the holidays left this year', () => {
+      vi.setSystemTime(new Date('2026-11-03T12:00:00'))
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.holidaysLeftThisYear()).toBe(2)
+    })
+
+    test('should not count today when today is a holiday', () => {
+      vi.setSystemTime(new Date('2026-12-25T12:00:00'))
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.holidaysLeftThisYear()).toBe(1)
+    })
+
+    test('should return 0 when no holidays are left', () => {
+      vi.setSystemTime(new Date('2026-12-26T12:00:00'))
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.holidaysLeftThisYear()).toBe(0)
+    })
+
+    test('should use the current year whatever year it is', () => {
+      vi.setSystemTime(new Date('2027-12-24T12:00:00'))
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.holidaysLeftThisYear()).toBe(2)
     })
   })
 })
