@@ -36,43 +36,6 @@ describe('MultiYearCalendar', () => {
     })
   })
 
-  describe('nextHolidayFrom', () => {
-    test('should find the date of the next holiday', () => {
-      const calendar = new MultiYearCalendar()
-      const workday = '2026-09-30'
-
-      expect(calendar.nextHolidayFrom(workday)).toBe('2026-10-31')
-    })
-
-    test('should be able to find the first holiday in the next year when it is next', () => {
-      const calendar = new MultiYearCalendar()
-      const date = '2026-12-30'
-
-      expect(calendar.nextHolidayFrom(date)).toBe('2027-01-01')
-    })
-
-    test('should not return the given date if it is a holiday, but instead the next holiday', () => {
-      const calendar = new MultiYearCalendar()
-      const holiday = '2026-12-25'
-
-      expect(calendar.nextHolidayFrom(holiday)).toBe('2026-12-26')
-    })
-
-    test('should throw error when giving an invalid date', () => {
-      const calendar = new MultiYearCalendar()
-
-      expect(() => calendar.nextHolidayFrom('2026-13-25')).toThrow()
-    })
-
-    test('should be able to find next holiday from dates in different years', () => {
-      const calendar = new MultiYearCalendar()
-
-      expect(calendar.nextHolidayFrom('2026-12-29')).toBe('2027-01-01')
-      expect(calendar.nextHolidayFrom('2028-06-05')).toBe('2028-06-06')
-      expect(calendar.nextHolidayFrom('2030-01-01')).toBe('2030-01-06')
-    })
-  })
-
   describe('isWorkday', () => {
     test('should return true when given a workday date', () => {
       const calendar = new MultiYearCalendar()
@@ -110,13 +73,50 @@ describe('MultiYearCalendar', () => {
     })
   })
 
-  describe('workdaysBetween', () => {
+  describe('nextHolidayFrom', () => {
+    test('should find the date of the next holiday', () => {
+      const calendar = new MultiYearCalendar()
+      const workday = '2026-09-30'
+
+      expect(calendar.nextHolidayFrom(workday)).toBe('2026-10-31')
+    })
+
+    test('should be able to find the first holiday in the next year when it is next', () => {
+      const calendar = new MultiYearCalendar()
+      const date = '2026-12-30'
+
+      expect(calendar.nextHolidayFrom(date)).toBe('2027-01-01')
+    })
+
+    test('should not return the given date if it is a holiday, but instead the next holiday', () => {
+      const calendar = new MultiYearCalendar()
+      const holiday = '2026-12-25'
+
+      expect(calendar.nextHolidayFrom(holiday)).toBe('2026-12-26')
+    })
+
+    test('should throw error when giving an invalid date', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(() => calendar.nextHolidayFrom('2026-13-25')).toThrow()
+    })
+
+    test('should be able to find next holiday from dates in different years', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.nextHolidayFrom('2026-12-29')).toBe('2027-01-01')
+      expect(calendar.nextHolidayFrom('2028-06-05')).toBe('2028-06-06')
+      expect(calendar.nextHolidayFrom('2030-01-01')).toBe('2030-01-06')
+    })
+  })
+
+  describe('workdaysInPeriod', () => {
     test('should not count weekends', () => {
       const calendar = new MultiYearCalendar()
       const startDate = '2026-10-09'
       const endDate = '2026-10-11'
 
-      expect(calendar.workdaysBetween(startDate, endDate)).toBe(1)
+      expect(calendar.workdaysInPeriod(startDate, endDate)).toBe(1)
     })
 
     test('should not count holidays', () => {
@@ -124,7 +124,7 @@ describe('MultiYearCalendar', () => {
       const startDate = '2026-12-23'
       const endDate = '2026-12-26'
 
-      expect(calendar.workdaysBetween(startDate, endDate)).toBe(2)
+      expect(calendar.workdaysInPeriod(startDate, endDate)).toBe(2)
     })
 
     test('should account for leap years', () => {
@@ -132,7 +132,7 @@ describe('MultiYearCalendar', () => {
       const startDate = '2028-02-28'
       const endDate = '2028-03-01'
 
-      expect(calendar.workdaysBetween(startDate, endDate)).toBe(3)
+      expect(calendar.workdaysInPeriod(startDate, endDate)).toBe(3)
     })
 
     test('should count workdays in a period that carry over into a new year', () => {
@@ -140,7 +140,7 @@ describe('MultiYearCalendar', () => {
       const startDate = '2026-11-02'
       const endDate = '2027-01-15'
 
-      expect(calendar.workdaysBetween(startDate, endDate)).toBe(52)
+      expect(calendar.workdaysInPeriod(startDate, endDate)).toBe(52)
     })
 
     test('should count workdays in a period that spans over multiple years', () => {
@@ -148,13 +148,92 @@ describe('MultiYearCalendar', () => {
       const startDate = '2025-09-02'
       const endDate = '2030-05-04'
 
-      expect(calendar.workdaysBetween(startDate, endDate)).toBe(1185)
+      expect(calendar.workdaysInPeriod(startDate, endDate)).toBe(1185)
     })
 
     test('should throw error when giving an invalid date', () => {
       const calendar = new MultiYearCalendar()
 
-      expect(() => calendar.workdaysBetween('2026-13-25')).toThrow()
+      expect(() => calendar.workdaysInPeriod('2026-13-25')).toThrow()
+    })
+  })
+
+  describe('workdaysAfterUntil', () => {
+    test('should not count the start date but count the end date', () => {
+      const calendar = new MultiYearCalendar()
+      const startDate = '2026-10-26'
+      const endDate = '2026-10-30'
+
+      expect(calendar.workdaysAfterUntil(startDate, endDate)).toBe(4)
+    })
+
+    test('should return 0 when start and end date are the same', () => {
+      const calendar = new MultiYearCalendar()
+      const date = '2026-10-30'
+
+      expect(calendar.workdaysAfterUntil(date, date)).toBe(0)
+    })
+
+    test('should return 0 when the end date is before the start date', () => {
+      const calendar = new MultiYearCalendar()
+      const startDate = '2026-10-30'
+      const endDate = '2026-10-26'
+
+      expect(calendar.workdaysAfterUntil(startDate, endDate)).toBe(0)
+    })
+
+    test('should not count weekends', () => {
+      const calendar = new MultiYearCalendar()
+      const startDate = '2026-10-08'
+      const endDate = '2026-10-11'
+
+      expect(calendar.workdaysAfterUntil(startDate, endDate)).toBe(1)
+    })
+
+    test('should not count holidays', () => {
+      const calendar = new MultiYearCalendar()
+      const startDate = '2026-12-23'
+      const endDate = '2026-12-28'
+
+      expect(calendar.workdaysAfterUntil(startDate, endDate)).toBe(2)
+    })
+
+    test('should account for leap years', () => {
+      const calendar = new MultiYearCalendar()
+      const startDate = '2028-02-28'
+      const endDate = '2028-03-01'
+
+      expect(calendar.workdaysAfterUntil(startDate, endDate)).toBe(2)
+    })
+
+    test('should not count December 31 when it is the start date', () => {
+      const calendar = new MultiYearCalendar()
+      const startDate = '2026-12-31'
+      const endDate = '2027-01-04'
+
+      expect(calendar.workdaysAfterUntil(startDate, endDate)).toBe(1)
+    })
+
+    test('should count workdays in a period that carry over into a new year', () => {
+      const calendar = new MultiYearCalendar()
+      const startDate = '2026-11-02'
+      const endDate = '2027-01-15'
+
+      expect(calendar.workdaysAfterUntil(startDate, endDate)).toBe(51)
+    })
+
+    test('should count workdays in a period that spans over multiple years', () => {
+      const calendar = new MultiYearCalendar()
+      const startDate = '2025-09-02'
+      const endDate = '2030-05-03'
+
+      expect(calendar.workdaysAfterUntil(startDate, endDate)).toBe(1184)
+    })
+
+    test('should throw error when giving an invalid date', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(() => calendar.workdaysAfterUntil('2026-13-25', '2026-12-31')).toThrow()
     })
   })
 })
