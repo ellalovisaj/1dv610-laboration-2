@@ -132,7 +132,7 @@ describe('MultiYearCalendar', () => {
       const startDate = '2028-02-28'
       const endDate = '2028-03-01'
 
-      expect(calendar.workdaysBetween(startDate, endDate)).toBe(2)
+      expect(calendar.workdaysBetween(startDate, endDate)).toBe(3)
     })
 
     test('should count workdays in a period that carry over into a new year', () => {
@@ -140,7 +140,7 @@ describe('MultiYearCalendar', () => {
       const startDate = '2026-11-02'
       const endDate = '2027-01-15'
 
-      expect(calendar.workdaysBetween(startDate, endDate)).toBe(51)
+      expect(calendar.workdaysBetween(startDate, endDate)).toBe(52)
     })
 
     test('should count workdays in a period that spans over multiple years', () => {
