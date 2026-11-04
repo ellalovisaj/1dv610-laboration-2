@@ -418,15 +418,15 @@ describe('MultiYearCalendar', () => {
   const calendar = new MultiYearCalendar()
 
   test('throws for February 30', () => {
-    expect(() => calendar.isHoliday('2026-02-30')).toThrow('invalid date')
+    expect(() => calendar.isHoliday('2026-02-30')).toThrow('Invalid date')
   })
 
   test('throws for February 29 in a non-leap year', () => {
-    expect(() => calendar.isHoliday('2026-02-29')).toThrow('invalid date')
+    expect(() => calendar.isHoliday('2026-02-29')).toThrow('Invalid date')
   })
 
   test('throws for April 31', () => {
-    expect(() => calendar.isHoliday('2026-04-31')).toThrow('invalid date')
+    expect(() => calendar.isHoliday('2026-04-31')).toThrow('Invalid date')
   })
 
   test('accepts February 29 in a leap year', () => {
