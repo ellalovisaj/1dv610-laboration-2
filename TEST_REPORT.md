@@ -2,7 +2,7 @@
 
 ## Summary
 
-The module is tested with automatic tests written in Vitest. All public methods of `HolidayCalendar` are tested, including the deprecated ones, to make sure their behaviour stays the same.
+The module is tested with automatic tests written in Vitest. All public methods of `HolidayCalendar` and `MultiYearCalendar` are tested, including the deprecated ones, to make sure their behaviour stays the same.
 
 The tests run in Swedish time (`TZ=Europe/Stockholm`), since several bugs only appeared in that time zone. They also run in GitHub Actions on every push.
 
