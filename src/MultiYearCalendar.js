@@ -1,4 +1,5 @@
 import { HolidayCalendar } from './HolidayCalendar.js'
+import { DateValidator } from './utils/DateValidator.js'
 import { DateCalculator } from './utils/DateCalculator.js'
 
 /**
@@ -9,6 +10,7 @@ import { DateCalculator } from './utils/DateCalculator.js'
  */
 export class MultiYearCalendar {
   #calculator = new DateCalculator()
+  #validator = DateValidator()
   #holidayCalendars = new Map()
 
   /**

@@ -1,4 +1,4 @@
-import { DateHelpers } from './DateHelpers.js'
+import { DateCalculator } from './utils/DateCalculator.js'
 import { EasterCalculator } from './EasterCalculator.js'
 
 /**
@@ -6,7 +6,7 @@ import { EasterCalculator } from './EasterCalculator.js'
  */
 export class MovingHolidays {
   #year
-  #helpers = new DateHelpers()
+  #calculator = new DateCalculator()
   #easterHelpers = new EasterCalculator()
 
   /**
@@ -51,11 +51,11 @@ export class MovingHolidays {
   #getMidsummerDayDate() {
     const startDate = new Date(`${this.#year}-06-19`)
     const endDate = new Date(`${this.#year}-06-25`)
-    const midsummerEve = this.#helpers.findFirstDateOfWeekdayBetween(startDate, endDate, 5)
+    const midsummerEve = this.#calculator.findFirstDateOfWeekdayBetween(startDate, endDate, 5)
 
     const midsummerDay = {
       name: 'Midsummer',
-      date: this.#helpers.addDays(midsummerEve, 1),
+      date: this.#calculator.addDays(midsummerEve, 1),
     }
 
     return midsummerDay
@@ -73,7 +73,7 @@ export class MovingHolidays {
 
     const allSaintsDay = {
       name: "All Saint's Day",
-      date: this.#helpers.findFirstDateOfWeekdayBetween(startDate, endDate, 6),
+      date: this.#calculator.findFirstDateOfWeekdayBetween(startDate, endDate, 6),
     }
 
     return allSaintsDay
