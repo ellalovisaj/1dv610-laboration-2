@@ -92,7 +92,7 @@ export class HolidayCalendar {
     this.#validator.validateYearHolidayCalendar(startDateStr, this.#year)
     this.#validator.validateYearHolidayCalendar(endDateStr, this.#year)
 
-    return this.#findWorkdays(this.#excludeStartDate(this.#getDateStringsInRange(startDateStr, endDateStr))).length
+    return this.#findWorkdays(this.#calculator.excludeStartDate(this.#getDateStringsInRange(startDateStr, endDateStr))).length
   }
 
   /**
@@ -166,14 +166,6 @@ export class HolidayCalendar {
     return dateStrings.filter((dateString) => this.isWorkday(dateString))
   }
 
-  #excludeStartDate(dateStrings) {
-    return dateStrings.slice(1)
-  }
-
-  #excludeEndDate(dateStrings) {
-    return dateStrings.slice(0, -1)
-  }
-
   /**
    * @deprecated Use workdaysAfterTodayUntil instead.
    *
@@ -191,7 +183,7 @@ export class HolidayCalendar {
     this.#validator.validateYearHolidayCalendar(dateStr, this.#year)
     this.#validator.validateYearHolidayCalendar(today, this.#year)
 
-    return this.#findWorkdays(this.#excludeEndDate(this.#getDateStringsInRange(today, dateStr))).length
+    return this.#findWorkdays(this.#calculator.excludeEndDate(this.#getDateStringsInRange(today, dateStr))).length
   }
 
   /**
@@ -210,6 +202,6 @@ export class HolidayCalendar {
     this.#validator.validateYearHolidayCalendar(startDateStr, this.#year)
     this.#validator.validateYearHolidayCalendar(endDateStr, this.#year)
 
-    return this.#findWorkdays(this.#excludeEndDate(this.#getDateStringsInRange(startDateStr, endDateStr))).length
+    return this.#findWorkdays(this.#calculator.excludeEndDate(this.#getDateStringsInRange(startDateStr, endDateStr))).length
   }
 }

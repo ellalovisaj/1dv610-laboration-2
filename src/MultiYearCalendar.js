@@ -10,7 +10,7 @@ import { DateCalculator } from './utils/DateCalculator.js'
  */
 export class MultiYearCalendar {
   #calculator = new DateCalculator()
-  #validator = DateValidator()
+  #validator = new DateValidator()
   #holidayCalendars = new Map()
 
   /**
@@ -21,7 +21,7 @@ export class MultiYearCalendar {
    */
   isHoliday(date) {
     this.#validateDates(date)
-    const calendar = this.#getCalendarFor(this.#getYearOf(date))
+    const calendar = this.#getCalendarFor(this.#calculator.getYearOf(date))
     return calendar.isHoliday(date)
   }
 
@@ -34,7 +34,7 @@ export class MultiYearCalendar {
    */
   isWorkday(date) {
     this.#validateDates(date)
-    const calendar = this.#getCalendarFor(this.#getYearOf(date))
+    const calendar = this.#getCalendarFor(this.#calculator.getYearOf(date))
     return calendar.isWorkday(date)
   }
 
@@ -47,7 +47,7 @@ export class MultiYearCalendar {
    */
   nextHolidayFrom(date) {
     this.#validateDates(date)
-    const calendar = this.#getCalendarFor(this.#getYearOf(date))
+    const calendar = this.#getCalendarFor(this.#calculator.getYearOf(date))
     return calendar.nextHolidayFrom(date)
   }
 
@@ -61,7 +61,7 @@ export class MultiYearCalendar {
    */
   workdaysAfterUntil(startDate, endDate) {
     this.#validateDates(startDate, endDate)
-    if (this.#isSameDate(startDate, endDate) || startDate > endDate) return 0
+    if (this.#calculator.isSameDate(startDate, endDate) || startDate > endDate) return 0
     return this.workdaysInPeriod(this.#calculator.addDaysToString(startDate, 1), endDate)
   }
 
@@ -77,11 +77,11 @@ export class MultiYearCalendar {
     this.#validateDates(startDate, endDate)
     if (startDate > endDate) return 0
 
-    if (this.#isDifferentYears(startDate, endDate)) {
+    if (this.#calculator.isDifferentYears(startDate, endDate)) {
       return this.#workdaysInPeriodAcrossYears(startDate, endDate)
     }
 
-    const calendar = this.#getCalendarFor(this.#getYearOf(startDate))
+    const calendar = this.#getCalendarFor(this.#calculator.getYearOf(startDate))
     return calendar.workdaysInPeriod(startDate, endDate)
   }
 
@@ -120,7 +120,7 @@ export class MultiYearCalendar {
    */
   addWorkdays(date, workdays) {
     this.#validateDates(date)
-    this.#validateWorkdays(workdays)
+    this.#validator.validateWorkdays(workdays)
 
     while (workdays > 0) {
       date = this.#calculator.addDaysToString(date, 1)
@@ -134,8 +134,8 @@ export class MultiYearCalendar {
   #workdaysInPeriodAcrossYears(startDate, endDate) {
     this.#validateDates(startDate, endDate)
 
-    const startYear = this.#getYearOf(startDate)
-    const endYear = this.#getYearOf(endDate)
+    const startYear = this.#calculator.getYearOf(startDate)
+    const endYear = this.#calculator.getYearOf(endDate)
 
     let workdayCount = this.#workdaysUntilEndOfYear(startDate)
 
@@ -150,37 +150,17 @@ export class MultiYearCalendar {
   }
 
   #workdaysOfFullYear(year) {
-    return this.#getCalendarFor(year).workdaysInPeriod(this.#firstDayOfYear(year), this.#lastDayOfYear(year))
+    return this.#getCalendarFor(year).workdaysInPeriod(this.#calculator.firstDayOfYear(year), this.#calculator.lastDayOfYear(year))
   }
 
   #workdaysUntilEndOfYear(startDate) {
-    const year = this.#getYearOf(startDate)
-    return this.#getCalendarFor(year).workdaysInPeriod(startDate, this.#lastDayOfYear(year))
+    const year = this.#calculator.getYearOf(startDate)
+    return this.#getCalendarFor(year).workdaysInPeriod(startDate, this.#calculator.lastDayOfYear(year))
   }
 
   #workdaysFromStartOfYear(endDate) {
-    const year = this.#getYearOf(endDate)
-    return this.#getCalendarFor(year).workdaysInPeriod(this.#firstDayOfYear(year), endDate)
-  }
-
-  #firstDayOfYear(year) {
-    return `${year}-01-01`
-  }
-
-  #lastDayOfYear(year) {
-    return `${year}-12-31`
-  }
-
-  #getYearOf(date) {
-    return new Date(date).getUTCFullYear()
-  }
-
-  #isDifferentYears(firstDate, secondDate) {
-    return this.#getYearOf(firstDate) !== this.#getYearOf(secondDate)
-  }
-
-  #isSameDate(firstDate, secondDate) {
-    return firstDate === secondDate
+    const year = this.#calculator.getYearOf(endDate)
+    return this.#getCalendarFor(year).workdaysInPeriod(this.#calculator.firstDayOfYear(year), endDate)
   }
 
   #getCalendarFor(year) {
@@ -192,35 +172,13 @@ export class MultiYearCalendar {
   }
 
   #getCalendarOfCurrentYear() {
-    return this.#getCalendarFor(this.#getCurrentYear())
-  }
-
-  #getCurrentYear() {
-    return this.#getYearOf(this.#calculator.getTodaysDate())
+    return this.#getCalendarFor(this.#calculator.getCurrentYear())
   }
 
   #validateDates(...dates) {
     for (const date of dates) {
-      this.#validateDate(date)
-      this.#getCalendarFor(this.#getYearOf(date))
-    }
-  }
-
-  #validateWorkdays(days) {
-    if (days % 1 === 0 && days > 0) {
-      return
-    }
-    throw new Error('Workdays must be a positive integer')
-  }
-
-  #isValidDate(dateStr) {
-    const date = new Date(dateStr)
-    return !Number.isNaN(date.getTime()) && this.#calculator.convertToString(date) === dateStr
-  }
-
-  #validateDate(dateStr) {
-    if (!this.#isValidDate(dateStr)) {
-      throw new Error('Invalid date, use the format `YYYY-MM-DD`.')
+      this.#validator.validateDate(date)
+      // this.#getCalendarFor(this.#getYearOf(date))
     }
   }
 }

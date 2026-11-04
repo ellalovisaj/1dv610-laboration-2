@@ -31,4 +31,11 @@ export class DateValidator {
     const date = new Date(dateStr)
     return !Number.isNaN(date.getTime()) && this.#calculator.convertToString(date) === dateStr
   }
+
+  validateWorkdays(days) {
+    if (days % 1 === 0 && days > 0) {
+      return
+    }
+    throw new Error('Workdays must be a positive integer')
+  } 
 }

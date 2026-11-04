@@ -1,4 +1,3 @@
-
 /**
  * Encapsulates helper methods that calculates or manipulates dates.
  */
@@ -11,8 +10,7 @@ export class DateCalculator {
    * @returns {number} The day of the week in numbers.
    */
   getWeekday(date) {
-    const weekday = date.getUTCDay()
-    return weekday
+    return date.getUTCDay()
   }
 
   /**
@@ -22,10 +20,7 @@ export class DateCalculator {
    * @returns {boolean} True if it is a weekend, false if not.
    */
   isWeekend(date) {
-    if (this.getWeekday(date) === 6 || this.getWeekday(date) === 0) {
-      return true
-    }
-    return false
+    return (this.getWeekday(date) === 6 || this.getWeekday(date) === 0)
   }
 
   /**
@@ -99,5 +94,37 @@ export class DateCalculator {
     const day = today.getDate()
 
     return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+  }
+
+  firstDayOfYear(year) {
+    return `${year}-01-01`
+  }
+
+  lastDayOfYear(year) {
+    return `${year}-12-31`
+  }
+
+  getYearOf(date) {
+    return new Date(date).getUTCFullYear()
+  }
+
+  isDifferentYears(firstDate, secondDate) {
+    return this.getYearOf(firstDate) !== this.getYearOf(secondDate)
+  }
+
+  isSameDate(firstDate, secondDate) {
+    return firstDate === secondDate
+  }
+
+  getCurrentYear() {
+    return this.getYearOf(this.getTodaysDate())
+  }
+
+  excludeStartDate(dateStrings) {
+    return dateStrings.slice(1)
+  }
+
+  excludeEndDate(dateStrings) {
+    return dateStrings.slice(0, -1)
   }
 }
