@@ -70,7 +70,8 @@ export class DateCalculator {
   }
 
   getTodaysDateString() {
-    return this.convertToString(this.#getTodaysDate())
+    // Use sv-SE to get YYYY-MM-DD format on local time.
+    return this.#getTodaysDate().toLocaleDateString('sv-SE')
   }
 
   #getTodaysDate() {
