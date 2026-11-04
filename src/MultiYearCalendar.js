@@ -135,8 +135,6 @@ export class MultiYearCalendar {
   }
 
   #workdaysInPeriodAcrossYears(startDate, endDate) {
-    this.#validateDates(startDate, endDate)
-
     const startYear = this.#calculator.getYearOf(startDate)
     const endYear = this.#calculator.getYearOf(endDate)
 
