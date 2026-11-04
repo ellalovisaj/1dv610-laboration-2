@@ -1,5 +1,5 @@
 # Holiday Calendar
-A small JavaScript module for working with Swedish public holidays. It lets you check if a date is a holiday or a workday, find the next holiday, and count workdays in a period, also across several years
+A small JavaScript module for working with Swedish public holidays. It lets you check if a date is a holiday or a workday, find the next holiday, and count workdays in a period, also across several years.
 
 ## Features
 * Checks whether a date is a holiday or not.
@@ -7,7 +7,8 @@ A small JavaScript module for working with Swedish public holidays. It lets you 
 * Checks if a date is a workday or not (neither a holiday nor a weekend).
 * Counts how many workdays there are left from today to a given date.
 * Counts how many workdays there are in a period, with or without the start date.
-* Counts how many holidays there are left this year, counted from today's date.  
+* Counts how many holidays there are left this year, counted from today's date.
+* Finds date a given number of workdays after a given date.
 
 ## Limitations
 - It does not support any calendar other than the Swedish public holiday calendar.
@@ -53,6 +54,9 @@ calendar.workdaysAfterUntil('2026-12-21', '2026-12-28')
 calendar.workdaysInPeriod('2026-12-21', '2027-01-08')
 // 12 (a period across New Year)
 
+calendar.addWorkdays('2026-10-30', 1)
+// '2026-11-02', since Friday the 30th is not counted and the weekend is skipped.
+
 /*
  * The following methods depend on today's date. Results shown for 2026-11-03:
  */
@@ -82,10 +86,13 @@ Returns the **number of workdays in the given period**, including the given end 
 ### workdaysInPeriod(startDate, endDate)
 Returns the number of workdays in the given period, including the given dates if they are workdays. Does not count weekends or holidays.
 
+### addWorkdays(date, workdays)
+Returns the date that is the given number of workdays after the given date. The start date is not counted. Holidays and weekends are skipped.
+
 ## Public methods that rely on today's date
 
 ### workdaysAfterTodayUntil(date)
-Returns the number of workdays **after today up to the given date**. Does not include today's date. Does not include weekends or holidays.
+Returns the number of workdays **after today up to and including the given date**. Does not include today's date. Does not include weekends or holidays.
 
 ### holidaysLeftThisYear()
 Returns the number of holidays left this year from today's date, not counting today.
@@ -189,6 +196,11 @@ The module is tested with Vitest. There are automatic tests for all public metho
 #### v1.2.0
 - Added `MultiYearCalendar`, which works for dates in any year between 1900 and 2199, also across multiple years
 - Deprecated `HolidayCalendar`. It still works, but might be removed in a future major version
+- Added a new public method, `addWorkdays()`, to `MultiYearCalendar`
+
+Bugfixes:
+- Fixed issue where getMovingHolidays() returned duplicated data when creating multiple calendars.
+- Invalid dates now throw errors with correct error messages.
 
 #### v1.1.0
 - Added `workdaysInPeriod()`, `workdaysAfterUntil()` and `workdaysAfterTodayUntil()`
