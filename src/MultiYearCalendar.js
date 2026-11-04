@@ -18,6 +18,7 @@ export class MultiYearCalendar {
    * @returns {boolean} - True if it is a holiday, false if not.
    */
   isHoliday(date) {
+    this.#validateDates(date)
     const calendar = this.#getCalendarFor(this.#getYearOf(date))
     return calendar.isHoliday(date)
   }
@@ -30,6 +31,7 @@ export class MultiYearCalendar {
    * @returns {boolean} True if it is a workday, false if not.
    */
   isWorkday(date) {
+    this.#validateDates(date)
     const calendar = this.#getCalendarFor(this.#getYearOf(date))
     return calendar.isWorkday(date)
   }
@@ -42,6 +44,7 @@ export class MultiYearCalendar {
    * @returns {string} The date of the next holiday
    */
   nextHolidayFrom(date) {
+    this.#validateDates(date)
     const calendar = this.#getCalendarFor(this.#getYearOf(date))
     return calendar.nextHolidayFrom(date)
   }
@@ -215,7 +218,7 @@ export class MultiYearCalendar {
 
   #validateDate(dateStr) {
     if (!this.#isValidDate(dateStr)) {
-      throw new Error('invalid date')
+      throw new Error('Invalid date, use the format `YYYY-MM-DD`.')
     }
   }
 }
