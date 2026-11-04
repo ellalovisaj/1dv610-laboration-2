@@ -1,5 +1,6 @@
 import { MovingHolidays } from './MovingHolidays.js'
 import { DateHelpers } from './DateHelpers.js'
+import { DateCalculator } from './utils/DateCalculator.js'
 
 /**
  * @deprecated Previously the main public class. Please use MultiYearCalendar instead.
@@ -10,6 +11,7 @@ export class HolidayCalendar {
   #year
   #movingHolidays
   #helpers = new DateHelpers()
+  #calculator = new DateCalculator()
   #holidayDateStrings = []
 
   // All fixed holidays, the same date every year
@@ -60,7 +62,7 @@ export class HolidayCalendar {
   isWorkday(dateStr) {
     this.#helpers.validateYear(dateStr, this.#year)
 
-    return !this.isHoliday(dateStr) && !this.#helpers.isWeekend(this.#helpers.convertToDate(dateStr))
+    return !this.isHoliday(dateStr) && !this.#calculator.isWeekend(this.#calculator.convertToDate(dateStr))
   }
 
   /**
@@ -119,7 +121,7 @@ export class HolidayCalendar {
   workdaysAfterTodayUntil(dateStr) {
     this.#helpers.validateYear(dateStr, this.#year)
 
-    return this.workdaysAfterUntil(this.#helpers.getTodaysDate(), dateStr)
+    return this.workdaysAfterUntil(this.#calculator.getTodaysDate(), dateStr)
   }
 
   /**
@@ -128,7 +130,7 @@ export class HolidayCalendar {
    * @returns {number} The number of holidays left this year.
    */
   holidaysLeftThisYear() {
-    return this.#holidayDateStrings.filter((date) => date > this.#helpers.getTodaysDate()).length
+    return this.#holidayDateStrings.filter((date) => date > this.#calculator.getTodaysDate()).length
   }
 
   /**
@@ -145,16 +147,16 @@ export class HolidayCalendar {
   }
 
   #compileHolidayDateStrings(allHolidays) {
-    this.#holidayDateStrings = allHolidays.map((holiday) => this.#helpers.convertToString(holiday.date)).sort()
+    this.#holidayDateStrings = allHolidays.map((holiday) => this.#calculator.convertToString(holiday.date)).sort()
   }
 
   #getDateStringsInRange(startDateStr, endDateStr) {
-    const endDate = this.#helpers.convertToDate(endDateStr)
-    const startDate = this.#helpers.convertToDate(startDateStr)
+    const endDate = this.#calculator.convertToDate(endDateStr)
+    const startDate = this.#calculator.convertToDate(startDateStr)
     const dates = []
 
-    for (let date = startDate; date <= endDate; date = this.#helpers.addDays(date, 1)) {
-      dates.push(this.#helpers.convertToString(date))
+    for (let date = startDate; date <= endDate; date = this.#calculator.addDays(date, 1)) {
+      dates.push(this.#calculator.convertToString(date))
     }
 
     return dates
@@ -184,7 +186,7 @@ export class HolidayCalendar {
    * @returns {number} The number of workdays.
    */
   workdaysFromTodayUntil(dateStr) {
-    const today = this.#helpers.getTodaysDate()
+    const today = this.#calculator.getTodaysDate()
 
     this.#helpers.validateYear(dateStr, this.#year)
     this.#helpers.validateYear(today, this.#year)

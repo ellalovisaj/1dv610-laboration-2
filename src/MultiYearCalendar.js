@@ -1,5 +1,5 @@
 import { HolidayCalendar } from './HolidayCalendar.js'
-import { DateHelpers } from './DateHelpers.js'
+import { DateCalculator } from './utils/DateCalculator.js'
 
 /**
  * Represents a calendar of public Swedish holidays with multi-year support. It can support years
@@ -8,7 +8,7 @@ import { DateHelpers } from './DateHelpers.js'
  * Please note that all dates are written as strings in the `YYYY-MM-DD` format. See examples in README.md.
  */
 export class MultiYearCalendar {
-  #helpers = new DateHelpers()
+  #calculator = new DateCalculator()
   #holidayCalendars = new Map()
 
   /**
@@ -60,7 +60,7 @@ export class MultiYearCalendar {
   workdaysAfterUntil(startDate, endDate) {
     this.#validateDates(startDate, endDate)
     if (this.#isSameDate(startDate, endDate) || startDate > endDate) return 0
-    return this.workdaysInPeriod(this.#helpers.addDaysToString(startDate, 1), endDate)
+    return this.workdaysInPeriod(this.#calculator.addDaysToString(startDate, 1), endDate)
   }
 
   /**
@@ -93,7 +93,7 @@ export class MultiYearCalendar {
    */
   workdaysAfterTodayUntil(date) {
     this.#validateDates(date)
-    return this.workdaysAfterUntil(this.#helpers.getTodaysDate(), date)
+    return this.workdaysAfterUntil(this.#calculator.getTodaysDate(), date)
   }
 
   /**
@@ -121,7 +121,7 @@ export class MultiYearCalendar {
     this.#validateWorkdays(workdays)
 
     while (workdays > 0) {
-      date = this.#helpers.addDaysToString(date, 1)
+      date = this.#calculator.addDaysToString(date, 1)
       if (this.isWorkday(date)) {
         workdays--
       }
@@ -194,7 +194,7 @@ export class MultiYearCalendar {
   }
 
   #getCurrentYear() {
-    return this.#getYearOf(this.#helpers.getTodaysDate())
+    return this.#getYearOf(this.#calculator.getTodaysDate())
   }
 
   #validateDates(...dates) {
@@ -213,7 +213,7 @@ export class MultiYearCalendar {
 
   #isValidDate(dateStr) {
     const date = new Date(dateStr)
-    return !Number.isNaN(date.getTime()) && this.#helpers.convertToString(date) === dateStr
+    return !Number.isNaN(date.getTime()) && this.#calculator.convertToString(date) === dateStr
   }
 
   #validateDate(dateStr) {
