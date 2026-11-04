@@ -383,7 +383,7 @@ describe('MultiYearCalendar', () => {
     test('should throw error when adding 0 workdays', () => {
       const calendar = new MultiYearCalendar()
 
-      expect(() => calendar.addWorkdays('2026-10-25', 0)).toThrow('positive integer')
+      expect(() => calendar.addWorkdays('2026-10-25', 0)).toThrow('greater than 0')
     })
 
     test('should throw error when giving an invalid date', () => {
@@ -401,13 +401,13 @@ describe('MultiYearCalendar', () => {
     test('should throw error when the number of workdays is negative', () => {
       const calendar = new MultiYearCalendar()
 
-      expect(() => calendar.addWorkdays('2026-10-30', -1)).toThrow('positive integer')
+      expect(() => calendar.addWorkdays('2026-10-30', -1)).toThrow('greater than 0')
     })
 
     test('should throw error when the number of workdays is not an integer', () => {
       const calendar = new MultiYearCalendar()
 
-      expect(() => calendar.addWorkdays('2026-10-30', 1.5)).toThrow('positive integer')
+      expect(() => calendar.addWorkdays('2026-10-30', 1.5)).toThrow('integer')
     })
   })
 
