@@ -10,26 +10,15 @@ export class DateCalculator {
     return this.getWeekdayNumber(date) === 6 || this.getWeekdayNumber(date) === 0
   }
 
-  // TODO: Only used in MovingHolidays.js. Move it there and break out into smaller methods in this class
-  /**
-   * Finds the first date of the given weekday between the two
-   * given dates.
-   *
-   * @param {object} startDate - The first date in the range.
-   * @param {object} endDate - The last date in the range.
-   * @param {number} weekdayToFind - Number of the weekday to find.
-   * @returns {object} The first day of the given weekday.
-   */
-  findFirstDateOfWeekdayBetween(startDate, endDate, weekdayToFind) {
-    let date = new Date(startDate)
-
-    while (date.getTime() <= endDate.getTime()) {
-      if (this.getWeekdayNumber(date) === weekdayToFind) {
-        return date
-      }
+  firstDateOfWeekdayFrom(date, weekday) {
+    while (!this.#isSameWeekday(date, weekday)) {
       date = this.addDaysTo(date, 1)
     }
-    throw new Error(`Weekday ${weekdayToFind} not found in the given range.`)
+    return date
+  }
+
+  #isSameWeekday(date, weekday) {
+    return this.getWeekdayNumber(date) === weekday
   }
 
   /**
@@ -42,43 +31,28 @@ export class DateCalculator {
     return newDate
   }
 
-  addDaysToDateString(dateString, days) {
-    return this.convertToString(this.addDaysTo(this.convertToDate(dateString), days))
+  /**
+   * @param {string} dateString - The date string to add days to.
+   * @param {number} dayCount - The number of days to add.
+   */
+  addDaysToDateString(dateString, dayCount) {
+    return this.convertToString(this.addDaysTo(this.convertToDate(dateString), dayCount))
   }
 
-  /**
-   * Converts date object to string in YYYY-MM-DD format.
-   *
-   * @param {object} date - The given date.
-   * @returns {string} the date as a string.
-   */
   convertToString(date) {
     return date.toISOString().split('T')[0]
   }
 
-  /**
-   * Converts a string into a date object.
-   *
-   * @param {string} dateString - The given date as a string.
-   * @returns {object} the date object.
-   */
   convertToDate(dateString) {
     return new Date(dateString)
   }
 
-  /**
-   * Get today's date and return it as a date string.
-   *
-   * @returns {string} Today's date as a string.
-   */
-  getTodaysDate() {
-    const today = new Date()
+  getTodaysDateString() {
+    return this.convertToString(this.#getTodaysDate())
+  }
 
-    const year = today.getFullYear()
-    const month = today.getMonth() + 1
-    const day = today.getDate()
-
-    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+  #getTodaysDate() {
+    return new Date()
   }
 
   firstDayOfYear(year) {
@@ -102,7 +76,7 @@ export class DateCalculator {
   }
 
   getCurrentYear() {
-    return this.getYearOf(this.getTodaysDate())
+    return this.getYearOf(this.getTodaysDateString())
   }
 
   /**
