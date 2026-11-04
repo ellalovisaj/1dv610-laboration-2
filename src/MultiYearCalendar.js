@@ -121,7 +121,7 @@ export class MultiYearCalendar {
   addWorkdays(date, workdays) {
     this.#validateDates(date)
     this.#validator.validateWorkdays(workdays)
-    
+
     let workdaysLeft = workdays
     let currentDate = date
 
@@ -151,7 +151,10 @@ export class MultiYearCalendar {
   }
 
   #workdaysOfFullYear(year) {
-    return this.#getCalendarFor(year).workdaysInPeriod(this.#calculator.firstDayOfYear(year), this.#calculator.lastDayOfYear(year))
+    return this.#getCalendarFor(year).workdaysInPeriod(
+      this.#calculator.firstDayOfYear(year),
+      this.#calculator.lastDayOfYear(year)
+    )
   }
 
   #workdaysUntilEndOfYear(startDate) {

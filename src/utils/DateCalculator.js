@@ -50,7 +50,7 @@ export class DateCalculator {
 
   firstDateOfWeekdayFrom(date, weekday) {
     let currentDate = date
-    
+
     while (!this.#isSameWeekday(currentDate, weekday)) {
       currentDate = this.addDaysTo(currentDate, 1)
     }
