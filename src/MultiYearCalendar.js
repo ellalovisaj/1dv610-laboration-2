@@ -95,7 +95,7 @@ export class MultiYearCalendar {
    */
   workdaysAfterTodayUntil(date) {
     this.#validateDates(date)
-    return this.workdaysAfterUntil(this.#calculator.getTodaysDate(), date)
+    return this.workdaysAfterUntil(this.#calculator.getTodaysDateString(), date)
   }
 
   /**

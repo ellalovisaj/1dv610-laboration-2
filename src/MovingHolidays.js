@@ -50,8 +50,7 @@ export class MovingHolidays {
    */
   #getMidsummerDayDate() {
     const startDate = new Date(`${this.#year}-06-19`)
-    const endDate = new Date(`${this.#year}-06-25`)
-    const midsummerEve = this.#calculator.findFirstDateOfWeekdayBetween(startDate, endDate, 5)
+    const midsummerEve = this.#calculator.firstDateOfWeekdayFrom(startDate, 5)
 
     const midsummerDay = {
       name: 'Midsummer',
@@ -69,11 +68,10 @@ export class MovingHolidays {
    */
   #getAllSaintsDayDate() {
     const startDate = new Date(`${this.#year}-10-31`)
-    const endDate = new Date(`${this.#year}-11-06`)
 
     const allSaintsDay = {
       name: "All Saint's Day",
-      date: this.#calculator.findFirstDateOfWeekdayBetween(startDate, endDate, 6),
+      date: this.#calculator.firstDateOfWeekdayFrom(startDate, 6),
     }
 
     return allSaintsDay

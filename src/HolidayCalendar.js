@@ -121,7 +121,7 @@ export class HolidayCalendar {
   workdaysAfterTodayUntil(dateStr) {
     this.#validator.validateYearHolidayCalendar(dateStr, this.#year)
 
-    return this.workdaysAfterUntil(this.#calculator.getTodaysDate(), dateStr)
+    return this.workdaysAfterUntil(this.#calculator.getTodaysDateString(), dateStr)
   }
 
   /**
@@ -130,7 +130,7 @@ export class HolidayCalendar {
    * @returns {number} The number of holidays left this year.
    */
   holidaysLeftThisYear() {
-    return this.#holidayDateStrings.filter((date) => date > this.#calculator.getTodaysDate()).length
+    return this.#holidayDateStrings.filter((date) => date > this.#calculator.getTodaysDateString()).length
   }
 
   /**
@@ -178,7 +178,7 @@ export class HolidayCalendar {
    * @returns {number} The number of workdays.
    */
   workdaysFromTodayUntil(dateStr) {
-    const today = this.#calculator.getTodaysDate()
+    const today = this.#calculator.getTodaysDateString()
 
     this.#validator.validateYearHolidayCalendar(dateStr, this.#year)
     this.#validator.validateYearHolidayCalendar(today, this.#year)
