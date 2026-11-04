@@ -410,4 +410,31 @@ describe('MultiYearCalendar', () => {
       expect(() => calendar.addWorkdays('2026-10-30', 1.5)).toThrow('positive integer')
     })
   })
+
+  /**
+   * Tests for error messages. Written by Claude Opus 5.5.
+   */
+  describe('invalid dates', () => {
+  const calendar = new MultiYearCalendar()
+
+  test('throws for February 30', () => {
+    expect(() => calendar.isHoliday('2026-02-30')).toThrow('invalid date')
+  })
+
+  test('throws for February 29 in a non-leap year', () => {
+    expect(() => calendar.isHoliday('2026-02-29')).toThrow('invalid date')
+  })
+
+  test('throws for April 31', () => {
+    expect(() => calendar.isHoliday('2026-04-31')).toThrow('invalid date')
+  })
+
+  test('accepts February 29 in a leap year', () => {
+    expect(calendar.isWorkday('2028-02-29')).toBe(true)
+  })
+
+  test('throws for workdays as a string', () => {
+    expect(() => calendar.addWorkdays('2026-11-04', '5')).toThrow()
+  })
+})
 })
