@@ -2,23 +2,24 @@
  * Encapsulates helper methods that calculates or manipulates dates.
  */
 export class DateCalculator {
-  getWeekdayNumber(date) {
-    return date.getUTCDay()
+  /**
+   * Removes first place in the array.
+   *
+   * @param {string[]} dateStrings - Array of date strings.
+   * @returns {string[]} Array of date strings.
+   */
+  excludeStartDate(dateStrings) {
+    return dateStrings.slice(1)
   }
 
-  isWeekend(date) {
-    return this.getWeekdayNumber(date) === 6 || this.getWeekdayNumber(date) === 0
-  }
-
-  firstDateOfWeekdayFrom(date, weekday) {
-    while (!this.#isSameWeekday(date, weekday)) {
-      date = this.addDaysTo(date, 1)
-    }
-    return date
-  }
-
-  #isSameWeekday(date, weekday) {
-    return this.getWeekdayNumber(date) === weekday
+  /**
+   * Removes last place in the array.
+   *
+   * @param {string[]} dateStrings - Array of date strings.
+   * @returns {string[]} Array of date strings.
+   */
+  excludeEndDate(dateStrings) {
+    return dateStrings.slice(0, -1)
   }
 
   /**
@@ -37,6 +38,25 @@ export class DateCalculator {
    */
   addDaysToDateString(dateString, dayCount) {
     return this.convertToString(this.addDaysTo(this.convertToDate(dateString), dayCount))
+  }
+
+  getWeekdayNumber(date) {
+    return date.getUTCDay()
+  }
+
+  isWeekend(date) {
+    return this.getWeekdayNumber(date) === 6 || this.getWeekdayNumber(date) === 0
+  }
+
+  firstDateOfWeekdayFrom(date, weekday) {
+    while (!this.#isSameWeekday(date, weekday)) {
+      date = this.addDaysTo(date, 1)
+    }
+    return date
+  }
+
+  #isSameWeekday(date, weekday) {
+    return this.getWeekdayNumber(date) === weekday
   }
 
   convertToString(date) {
@@ -63,8 +83,8 @@ export class DateCalculator {
     return `${year}-12-31`
   }
 
-  getYearOf(date) {
-    return new Date(date).getUTCFullYear()
+  getYearOf(dateString) {
+    return new Date(dateString).getUTCFullYear()
   }
 
   isDifferentYears(firstDate, secondDate) {
@@ -77,25 +97,5 @@ export class DateCalculator {
 
   getCurrentYear() {
     return this.getYearOf(this.getTodaysDateString())
-  }
-
-  /**
-   * Removes first place in the array.
-   *
-   * @param {string[]} dateStrings - Array of date strings.
-   * @returns {string[]} Array of date strings.
-   */
-  excludeStartDate(dateStrings) {
-    return dateStrings.slice(1)
-  }
-
-  /**
-   * Removes last place in the array.
-   *
-   * @param {string[]} dateStrings - Array of date strings.
-   * @returns {string[]} Array of date strings.
-   */
-  excludeEndDate(dateStrings) {
-    return dateStrings.slice(0, -1)
   }
 }

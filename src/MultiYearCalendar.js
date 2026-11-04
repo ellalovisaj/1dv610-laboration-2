@@ -177,8 +177,7 @@ export class MultiYearCalendar {
 
   #validateDates(...dates) {
     for (const date of dates) {
-      this.#validator.validateDate(date)
-      // this.#getCalendarFor(this.#getYearOf(date))
+      this.#validator.validateDateString(date)
     }
   }
 }

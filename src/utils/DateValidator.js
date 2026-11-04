@@ -1,4 +1,4 @@
-import { DateCalculator } from "./DateCalculator.js"
+import { DateCalculator } from './DateCalculator.js'
 
 /**
  * Encapsulates methods that validates dates and values related to dates.
@@ -9,33 +9,42 @@ export class DateValidator {
   /**
    * Checks if date falls in current holiday calendar's year. Only needed
    * to ensure HolidayCalendar's public methods still work.
-   * 
+   *
    * Can be removed in future major update if HolidayCalender methods is
    * made private.
    */
-  validateYearHolidayCalendar(dateString, year) {
-    const date = this.#calculator.convertToDate(dateString)
-
-    if (date.getUTCFullYear() !== year) {
+  validateYearInCalendarYear(dateString, year) {
+    this.validateDateString(dateString)
+    if (this.#calculator.getYearOf(dateString) !== year) {
       throw new Error('Date is outside this calendar year.')
     }
   }
 
-  validateDate(dateStr) {
-    if (!this.#isValidDate(dateStr)) {
+  validateDateString(dateString) {
+    if (!this.#isValidDate(dateString)) {
       throw new Error('Invalid date, use the format `YYYY-MM-DD`.')
+    }
+    if (!this.#hasValidYear(dateString)) {
+      throw new Error('The calendar module only support the years from 1900 to 2199.')
     }
   }
 
-  #isValidDate(dateStr) {
-    const date = new Date(dateStr)
-    return !Number.isNaN(date.getTime()) && this.#calculator.convertToString(date) === dateStr
+  #hasValidYear(dateString) {
+    const year = this.#calculator.getYearOf(dateString)
+    return year >= 1900 && year <= 2199
+  }
+
+  #isValidDate(dateString) {
+    const date = new Date(dateString)
+    return !Number.isNaN(date.getTime()) && this.#calculator.convertToString(date) === dateString
   }
 
   validateWorkdays(days) {
-    if (days % 1 === 0 && days > 0) {
-      return
+    if (!Number.isInteger(days)) {
+      throw new Error('Invalid workdays count: Must be an integer')
     }
-    throw new Error('Workdays must be a positive integer')
-  } 
+    if (days <= 0) {
+      throw new Error('Invalid workdays count: Must be greater than 0')
+    }
+  }
 }
