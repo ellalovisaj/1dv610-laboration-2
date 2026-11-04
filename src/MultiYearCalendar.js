@@ -102,7 +102,17 @@ export class MultiYearCalendar {
     return this.#getCalendarOfCurrentYear().holidaysLeftThisYear()
   }
 
-  // TODO: addWorkdays() {}
+  addWorkdays(date, workdays) {
+    this.#validateWorkdays(workdays)
+
+    while (workdays > 0) {
+      date = this.#helpers.addDaysToString(date, 1)
+      if (this.isWorkday(date)) {
+        workdays--
+      }
+    }
+    return date
+  }
 
   #workdaysInPeriodAcrossYears(startDate, endDate) {
     this.#validateDates(startDate, endDate)
@@ -176,5 +186,12 @@ export class MultiYearCalendar {
     for (const date of dates) {
       this.#getCalendarFor(this.#getYearOf(date))
     }
+  }
+
+  #validateWorkdays(days) {
+    if ((days % 1) === 0 && days > 0) {
+      return
+    }
+    throw new Error('Workdays must be a positive integer')
   }
 }
