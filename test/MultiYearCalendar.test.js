@@ -324,4 +324,90 @@ describe('MultiYearCalendar', () => {
       expect(calendar.holidaysLeftThisYear()).toBe(2)
     })
   })
+
+  describe('addWorkdays', () => {
+    test('should skip the weekend', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.addWorkdays('2026-10-30', 1)).toBe('2026-11-02')
+    })
+
+    test('should count a full week of workdays', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.addWorkdays('2026-10-30', 5)).toBe('2026-11-06')
+    })
+
+    test('should not count the start date', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.addWorkdays('2026-10-26', 1)).toBe('2026-10-27')
+    })
+
+    test('should start counting the day after when the start date is a weekend', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.addWorkdays('2026-10-31', 1)).toBe('2026-11-02')
+    })
+
+    test('should skip holidays', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.addWorkdays('2026-12-23', 3)).toBe('2026-12-29')
+    })
+
+    test('should skip Easter holidays', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.addWorkdays('2026-04-01', 2)).toBe('2026-04-07')
+    })
+
+    test('should skip a holiday in the middle of the week', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.addWorkdays('2026-05-13', 1)).toBe('2026-05-15')
+    })
+
+    test('should continue into the next year', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.addWorkdays('2026-12-30', 3)).toBe('2027-01-05')
+    })
+
+    test('should handle a count that spans almost a full year', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(calendar.addWorkdays('2026-12-31', 254)).toBe('2027-12-29')
+    })
+
+    test('should throw error when adding 0 workdays', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(() => calendar.addWorkdays('2026-10-25', 0)).toThrow('positive integer')
+    })
+
+    test('should throw error when giving an invalid date', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(() => calendar.addWorkdays('2026-13-25', 1)).toThrow('invalid date')
+    })
+
+    test('should throw error when the result is after 2199', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(() => calendar.addWorkdays('2199-12-31', 1)).toThrow('years from 1900 to 2199')
+    })
+
+    test('should throw error when the number of workdays is negative', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(() => calendar.addWorkdays('2026-10-30', -1)).toThrow('positive integer')
+    })
+
+    test('should throw error when the number of workdays is not an integer', () => {
+      const calendar = new MultiYearCalendar()
+
+      expect(() => calendar.addWorkdays('2026-10-30', 1.5)).toThrow('positive integer')
+    })
+  })
 })
