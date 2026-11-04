@@ -102,7 +102,19 @@ export class MultiYearCalendar {
     return this.#getCalendarOfCurrentYear().holidaysLeftThisYear()
   }
 
+  /**
+   * Returns the date that is the given number of workdays after the given
+   * date. The start date is not counted. Holidays and weekends are skipped.
+   *
+   * Example: addWorkdays('2026-10-30', 1) returns '2026-11-02', since
+   * Friday the 30th is not counted and the weekend is skipped.
+   *
+   * @param {string} date - The given start date.
+   * @param {number} workdays - The given amount of workdays to add.
+   * @returns {string} The new date, with the workdays added.
+   */
   addWorkdays(date, workdays) {
+    this.#validateDates(date)
     this.#validateWorkdays(workdays)
 
     while (workdays > 0) {
@@ -184,14 +196,26 @@ export class MultiYearCalendar {
 
   #validateDates(...dates) {
     for (const date of dates) {
+      this.#validateDate(date)
       this.#getCalendarFor(this.#getYearOf(date))
     }
   }
 
   #validateWorkdays(days) {
-    if ((days % 1) === 0 && days > 0) {
+    if (days % 1 === 0 && days > 0) {
       return
     }
     throw new Error('Workdays must be a positive integer')
+  }
+
+  #isValidDate(dateStr) {
+   const date = new Date(dateStr)
+   return !Number.isNaN(date.getTime()) && this.#helpers.convertToString(date) === dateStr
+  }
+
+  #validateDate(dateStr) {
+    if (!this.#isValidDate(dateStr)) {
+      throw new Error('invalid date')
+    }
   }
 }
