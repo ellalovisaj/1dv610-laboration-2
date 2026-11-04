@@ -32,7 +32,7 @@ describe('MultiYearCalendar', () => {
     test('should throw error when giving an invalid date', () => {
       const calendar = new MultiYearCalendar()
 
-      expect(() => calendar.isHoliday('2026-13-25')).toThrow()
+      expect(() => calendar.isHoliday('2026-13-25')).toThrow('Invalid date')
     })
   })
 
@@ -61,7 +61,7 @@ describe('MultiYearCalendar', () => {
     test('should throw error when giving an invalid date', () => {
       const calendar = new MultiYearCalendar()
 
-      expect(() => calendar.isWorkday('2026-13-25')).toThrow()
+      expect(() => calendar.isWorkday('2026-13-25')).toThrow('Invalid date')
     })
 
     test('should be able to return true for workday dates in different years', () => {
@@ -98,7 +98,7 @@ describe('MultiYearCalendar', () => {
     test('should throw error when giving an invalid date', () => {
       const calendar = new MultiYearCalendar()
 
-      expect(() => calendar.nextHolidayFrom('2026-13-25')).toThrow()
+      expect(() => calendar.nextHolidayFrom('2026-13-25')).toThrow('Invalid date')
     })
 
     test('should be able to find next holiday from dates in different years', () => {
@@ -160,7 +160,7 @@ describe('MultiYearCalendar', () => {
     test('should throw error when giving an invalid date', () => {
       const calendar = new MultiYearCalendar()
 
-      expect(() => calendar.workdaysInPeriod('2026-13-25')).toThrow()
+      expect(() => calendar.workdaysInPeriod('2026-13-25')).toThrow('Invalid date')
     })
   })
 
@@ -245,7 +245,7 @@ describe('MultiYearCalendar', () => {
     test('should throw error when giving an invalid date', () => {
       const calendar = new MultiYearCalendar()
 
-      expect(() => calendar.workdaysAfterUntil('2026-13-25', '2026-12-31')).toThrow()
+      expect(() => calendar.workdaysAfterUntil('2026-13-25', '2026-12-31')).toThrow('Invalid date')
     })
   })
 
@@ -389,7 +389,7 @@ describe('MultiYearCalendar', () => {
     test('should throw error when giving an invalid date', () => {
       const calendar = new MultiYearCalendar()
 
-      expect(() => calendar.addWorkdays('2026-13-25', 1)).toThrow('invalid date')
+      expect(() => calendar.addWorkdays('2026-13-25', 1)).toThrow('Invalid date')
     })
 
     test('should throw error when the result is after 2199', () => {
