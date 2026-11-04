@@ -62,7 +62,8 @@ export class DateHelpers {
   }
 
   addDaysToString(dateStr, days) {
-    return this.addDays(this.convertToDate(dateStr), days)
+    this.#validateDate(dateStr)
+    return this.convertToString(this.addDays(this.convertToDate(dateStr), days))
   }
 
   /**
@@ -111,6 +112,17 @@ export class DateHelpers {
 
     if (date.getUTCFullYear() !== year) {
       throw new Error('Date is outside this calendar year.')
+    }
+  }
+
+  #isValidDate(dateStr) {
+   const date = new Date(dateStr)
+   return !Number.isNaN(date.getTime()) && this.convertToString(date) === dateStr
+  }
+
+  #validateDate(dateStr) {
+    if (!this.#isValidDate(dateStr)) {
+      throw new Error('invalid date')
     }
   }
 }
