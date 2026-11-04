@@ -3,7 +3,7 @@ import { DateHelpers } from './DateHelpers.js'
 
 /**
  * @deprecated Previously the main public class. Please use MultiYearCalendar instead.
- * 
+ *
  * Represents a calendar of public Swedish holidays.
  */
 export class HolidayCalendar {

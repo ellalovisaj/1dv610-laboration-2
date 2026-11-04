@@ -212,8 +212,8 @@ export class MultiYearCalendar {
   }
 
   #isValidDate(dateStr) {
-   const date = new Date(dateStr)
-   return !Number.isNaN(date.getTime()) && this.#helpers.convertToString(date) === dateStr
+    const date = new Date(dateStr)
+    return !Number.isNaN(date.getTime()) && this.#helpers.convertToString(date) === dateStr
   }
 
   #validateDate(dateStr) {

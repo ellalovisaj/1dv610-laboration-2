@@ -62,7 +62,6 @@ export class DateHelpers {
   }
 
   addDaysToString(dateStr, days) {
-    
     return this.convertToString(this.addDays(this.convertToDate(dateStr), days))
   }
 
