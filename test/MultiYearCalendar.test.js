@@ -354,4 +354,32 @@ describe('MultiYearCalendar', () => {
       expect(() => calendar.addWorkdays('2026-11-04', '5')).toThrow()
     })
   })
+
+  describe("today's date shortly after midnight", () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    test('should use the new year just after midnight on New Year', () => {
+      vi.setSystemTime(new Date('2027-01-01T00:30:00'))
+
+      expect(calendar.holidaysLeftThisYear()).toBe(12)
+    })
+
+    test('should use the local date just after midnight in summer time', () => {
+      vi.setSystemTime(new Date('2026-06-06T01:30:00'))
+
+      expect(calendar.holidaysLeftThisYear()).toBe(4)
+    })
+
+    test('should not count today as a workday just after midnight', () => {
+      vi.setSystemTime(new Date('2026-12-28T00:30:00'))
+
+      expect(calendar.workdaysAfterTodayUntil('2026-12-29')).toBe(1)
+    })
+  })
 })
