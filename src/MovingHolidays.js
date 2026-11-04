@@ -55,7 +55,7 @@ export class MovingHolidays {
 
     const midsummerDay = {
       name: 'Midsummer',
-      date: this.#calculator.addDays(midsummerEve, 1),
+      date: this.#calculator.addDaysTo(midsummerEve, 1),
     }
 
     return midsummerDay

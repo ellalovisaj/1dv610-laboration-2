@@ -2,27 +2,15 @@
  * Encapsulates helper methods that calculates or manipulates dates.
  */
 export class DateCalculator {
-  /**
-   * Returns a number representing the weekday of the given date.
-   * (Sunday = 0, Monday = 1, Tuesday = 2 etc.)
-   *
-   * @param {object} date - The date to find weekday from.
-   * @returns {number} The day of the week in numbers.
-   */
-  getWeekday(date) {
+  getWeekdayNumber(date) {
     return date.getUTCDay()
   }
 
-  /**
-   * Checks if a given date is a weekend.
-   *
-   * @param {object} date - The given date.
-   * @returns {boolean} True if it is a weekend, false if not.
-   */
   isWeekend(date) {
-    return (this.getWeekday(date) === 6 || this.getWeekday(date) === 0)
+    return this.getWeekdayNumber(date) === 6 || this.getWeekdayNumber(date) === 0
   }
 
+  // TODO: Only used in MovingHolidays.js. Move it there and break out into smaller methods in this class
   /**
    * Finds the first date of the given weekday between the two
    * given dates.
@@ -36,29 +24,26 @@ export class DateCalculator {
     let date = new Date(startDate)
 
     while (date.getTime() <= endDate.getTime()) {
-      if (this.getWeekday(date) === weekdayToFind) {
+      if (this.getWeekdayNumber(date) === weekdayToFind) {
         return date
       }
-      date = this.addDays(date, 1)
+      date = this.addDaysTo(date, 1)
     }
     throw new Error(`Weekday ${weekdayToFind} not found in the given range.`)
   }
 
   /**
-   * Adds a given amount of days to a date.
-   *
    * @param {object} date - The date to add days to.
-   * @param {number} days - The number of days to add.
-   * @returns {object} The date with days added.
+   * @param {number} dayCount - The number of days to add.
    */
-  addDays(date, days) {
+  addDaysTo(date, dayCount) {
     const newDate = new Date(date)
-    newDate.setUTCDate(newDate.getUTCDate() + days)
+    newDate.setUTCDate(newDate.getUTCDate() + dayCount)
     return newDate
   }
 
-  addDaysToString(dateStr, days) {
-    return this.convertToString(this.addDays(this.convertToDate(dateStr), days))
+  addDaysToDateString(dateString, days) {
+    return this.convertToString(this.addDaysTo(this.convertToDate(dateString), days))
   }
 
   /**
@@ -74,11 +59,11 @@ export class DateCalculator {
   /**
    * Converts a string into a date object.
    *
-   * @param {string} dateStr - The given date as a string.
+   * @param {string} dateString - The given date as a string.
    * @returns {object} the date object.
    */
-  convertToDate(dateStr) {
-    return new Date(dateStr)
+  convertToDate(dateString) {
+    return new Date(dateString)
   }
 
   /**
@@ -120,10 +105,22 @@ export class DateCalculator {
     return this.getYearOf(this.getTodaysDate())
   }
 
+  /**
+   * Removes first place in the array.
+   *
+   * @param {string[]} dateStrings - Array of date strings.
+   * @returns {string[]} Array of date strings.
+   */
   excludeStartDate(dateStrings) {
     return dateStrings.slice(1)
   }
 
+  /**
+   * Removes last place in the array.
+   *
+   * @param {string[]} dateStrings - Array of date strings.
+   * @returns {string[]} Array of date strings.
+   */
   excludeEndDate(dateStrings) {
     return dateStrings.slice(0, -1)
   }

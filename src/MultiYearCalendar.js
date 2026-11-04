@@ -62,7 +62,7 @@ export class MultiYearCalendar {
   workdaysAfterUntil(startDate, endDate) {
     this.#validateDates(startDate, endDate)
     if (this.#calculator.isSameDate(startDate, endDate) || startDate > endDate) return 0
-    return this.workdaysInPeriod(this.#calculator.addDaysToString(startDate, 1), endDate)
+    return this.workdaysInPeriod(this.#calculator.addDaysToDateString(startDate, 1), endDate)
   }
 
   /**
@@ -123,7 +123,7 @@ export class MultiYearCalendar {
     this.#validator.validateWorkdays(workdays)
 
     while (workdays > 0) {
-      date = this.#calculator.addDaysToString(date, 1)
+      date = this.#calculator.addDaysToDateString(date, 1)
       if (this.isWorkday(date)) {
         workdays--
       }

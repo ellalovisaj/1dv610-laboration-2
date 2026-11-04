@@ -30,7 +30,7 @@ export class EasterCalculator {
       // Add name and date to a temporary object
       const tempEasterHoliday = {
         name: holiday.name,
-        date: this.#calculator.addDays(easter, holiday.daysFromEaster),
+        date: this.#calculator.addDaysTo(easter, holiday.daysFromEaster),
       }
       // Add object to array
       easterBasedHolidays.push(tempEasterHoliday)

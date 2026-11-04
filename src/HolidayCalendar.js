@@ -155,7 +155,7 @@ export class HolidayCalendar {
     const startDate = this.#calculator.convertToDate(startDateStr)
     const dates = []
 
-    for (let date = startDate; date <= endDate; date = this.#calculator.addDays(date, 1)) {
+    for (let date = startDate; date <= endDate; date = this.#calculator.addDaysTo(date, 1)) {
       dates.push(this.#calculator.convertToString(date))
     }
 
