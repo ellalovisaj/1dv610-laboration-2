@@ -17,7 +17,7 @@ export class DateValidator {
 
   validateYear(year) {
     if (!Number.isInteger(year) || !this.#isValidYear(year)) {
-      throw new Error('The calendar module only support the years from 1900 to 2199.')
+      throw new Error('The calendar module only supports the years from 1900 to 2199.')
     }
   }
 
@@ -48,10 +48,10 @@ export class DateValidator {
    * Checks if date falls in current holiday calendar's year. Only needed
    * to ensure HolidayCalendar's public methods still work.
    *
-   * Can be removed in future major update if HolidayCalender methods is
+   * Can be removed in future major update if HolidayCalender methods are
    * made private.
    */
-  validateYearInCalendarYear(dateString, year) {
+  validateYearForHolidayCalendar(dateString, year) {
     this.validateDateString(dateString)
     if (this.#calculator.getYearOf(dateString) !== year) {
       throw new Error('Date is outside this calendar year.')
