@@ -18,9 +18,9 @@ npm test
 ## Test results
 
 ### MultiYearCalendar
-Last run: 2026-11-04, version 1.2.0. 55 tests, all passing.
+Last run: 2026-11-05, version 1.2.1. 63 tests, all passing.
 
-![MYC Test results](docs/images/test-result-2026-11-04.png)
+![MYC Test results](docs/images/MYC-test-results-2026-11-05.png)
 
 | Method | Tests | What is covered | Result |
 | --- | --- | --- | --- |
@@ -28,17 +28,19 @@ Last run: 2026-11-04, version 1.2.0. 55 tests, all passing.
 | `isWorkday` | 5 | Workday, weekend, holiday, workdays in different years, invalid date | ✅ Passed |
 | `nextHolidayFrom` | 5 | Next holiday, given date is a holiday, first holiday of next year, dates in different years, invalid date | ✅ Passed |
 | `workdaysInPeriod` | 7 | Weekends, holidays, leap year, period across New Year, period across several years, end date in an earlier year, invalid date | ✅ Passed |
-| `workdaysAfterUntil` | 11 | Start date not counted and end date counted, same start and end date, end date before start date, weekends, holidays, leap year, December 31 as start date, period across New Year, period across several years, invalid date | ✅ Passed |
+| `workdaysAfterUntil` | 11 | Start date not counted and end date counted, same start and end date, end date before start date, weekends, holidays, leap year, December 31 as start date, December 31 as both start and end date, period across New Year, period across several years, invalid date | ✅ Passed |
 | `workdaysAfterTodayUntil` | 4 | Workdays after today, into the next year, given date is today, given date in a previous year | ✅ Passed |
 | `holidaysLeftThisYear` | 4 | Holidays left, today is a holiday, no holidays left, works in any current year | ✅ Passed |
 | `addWorkdays` | 14 | Weekend, a full week, start date not counted, start date on a weekend, holidays, Easter, holiday mid-week, into the next year, almost a full year, 0 workdays, invalid date, result after 2199, negative and non-integer number of workdays | ✅ Passed |
+| Invalid dates | 5 | February 30, February 29 in a non-leap year, April 31, February 29 in a leap year accepted, number of workdays as a string | ✅ Passed |
+| Today's date after midnight | 3 | New Year's Day at 00:30, summer time at 01:30, today not counted at 00:30 | ✅ Passed |
 
 
 ### HolidayCalendar
 
-Last run: 2026-11-03, version 1.1.0. 56 tests, all passing.
+Last run: 2026-11-05, version 1.2.1. 59 tests, all passing.
 
-![HC Test results](docs/images/test-report-2026-11-03.png)
+![HC Test results](docs/images/HC-test-results-2026-11-05.png)
 
 | Method | Tests | What is covered | Result |
 | --- | --- | --- | --- |
@@ -50,6 +52,7 @@ Last run: 2026-11-03, version 1.1.0. 56 tests, all passing.
 | `workdaysAfterUntil` | 5 | Weekends, holidays, leap year, invalid date and year | ✅ Passed |
 | `workdaysAfterTodayUntil` | 8 | End date counted, today not counted, today, past date, holidays, weekends, another year | ✅ Passed |
 | `holidaysLeftThisYear` | 3 | Holidays left, today is a holiday, no holidays left | ✅ Passed |
+| Invalid dates | 3 | February 30, February 29 in a non-leap year, April 31 | ✅ Passed |
 | `workdaysBetween` (deprecated) | 5 | Same behaviour as before: weekends, holidays, leap year, invalid date and year | ✅ Passed |
 | `workdaysFromTodayUntil` (deprecated) | 8 | Same behaviour as before: today counted, end date not counted, holidays, weekends, another year | ✅ Passed |
 
