@@ -30,10 +30,8 @@ export class HolidayCalendar {
    * @param {number} year - The given year.
    */
   constructor(year) {
-    if (!Number.isInteger(year) || year < 1900 || year > 2199) {
-      throw new Error('The calendar module only support the years from 1900 to 2199.')
-    }
-
+    this.#validator.validateYear(year)
+    
     this.#year = year
     this.#movingHolidays = new MovingHolidays(year)
     const allHolidays = this.#compileAllHolidays()
