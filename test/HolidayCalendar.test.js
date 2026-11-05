@@ -383,8 +383,9 @@ describe('holidaysLeftThisYear', () => {
 
     expect(calendar.holidaysLeftThisYear()).toBe(0)
   })
+})
 
-  describe('invalid dates', () => {
+describe('invalid dates', () => {
     const calendar = new HolidayCalendar(2026)
 
     test('throws for February 30', () => {
@@ -399,4 +400,3 @@ describe('holidaysLeftThisYear', () => {
       expect(() => calendar.isHoliday('2026-04-31')).toThrow('Invalid date')
     })
   })
-})
