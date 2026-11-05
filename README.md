@@ -22,7 +22,7 @@ A small JavaScript module for working with Swedish public holidays. It lets you 
 ### Installation
 
 ```bash
-npm install github:ellalovisaj/1dv610-laboration-2#v1.2.0
+npm install github:ellalovisaj/1dv610-laboration-2#v1.2.1
 ```
 
 The package name changed from `js-cli-template` to `Holiday-Calendar` in v1.1.0. If you used an earlier version, update your import.
@@ -177,10 +177,12 @@ The module is tested with Vitest. There are automatic tests for all public metho
 
 ```text
 ├── src/
+│   ├── utils/
+│   │   ├── DateCalculator.js     # Helper functions for date-related calculations
+│   │   └── DateValidator.js      # Validation functions
 │   ├── index.js                  # Entry point
-│   ├── MultiYearCalendar.js      # Main class
-│   ├── DateHelpers.js            # Class that holds helper functions
-│   ├── HolidayCalendar.js        # Calendar for a single year
+│   ├── MultiYearCalendar.js      # Creates multiple holiday calendars
+│   ├── HolidayCalendar.js        # Holiday calendar for a single year
 │   ├── MovingHolidays.js         # Class that is responsible for all moving holidays
 │   └── EasterCalculator.js       # Class that is responsible for all Easter-based holidays
 ├── test/  
@@ -192,6 +194,10 @@ The module is tested with Vitest. There are automatic tests for all public metho
 ---
 
 ## Changelog
+
+#### v1.2.1
+- Invalid dates like 2026-02-30 will now throw errors instead of turning into 2026-03-02
+- Internal reorganizing of helper methods
 
 #### v1.2.0
 - Added `MultiYearCalendar`, which works for dates in any year between 1900 and 2199, also across multiple years
