@@ -32,108 +32,90 @@ describe('Holiday Calendar', () => {
 })
 
 describe('isHoliday', () => {
+  const calendar = new HolidayCalendar(2026)
   test('should return true for Christmas Day', () => {
-    const calendar = new HolidayCalendar(2026)
-
     expect(calendar.isHoliday('2026-12-25')).toBe(true)
   })
 
   test('should return false for Christmas Eve', () => {
-    const calendar = new HolidayCalendar(2026)
-
     expect(calendar.isHoliday('2026-12-24')).toBe(false)
   })
 
   test('should return true for Easter Sunday', () => {
-    const calendar = new HolidayCalendar(2026)
-
     expect(calendar.isHoliday('2026-04-05')).toBe(true)
   })
 
   test('should throw error when giving an invalid date', () => {
-    const calendar = new HolidayCalendar(2026)
-
     expect(() => calendar.isHoliday('2026-13-25')).toThrow()
   })
 
   test('should throw error when giving an invalid year', () => {
-    const calendar = new HolidayCalendar(2026)
-
     expect(() => calendar.isHoliday('2024-10-22')).toThrow()
   })
 })
 
 describe('nextHolidayFrom', () => {
+  const calendar = new HolidayCalendar(2026)
   test('should find the date of the next holiday', () => {
-    const calendar = new HolidayCalendar(2026)
     const workday = '2026-09-30'
 
     expect(calendar.nextHolidayFrom(workday)).toBe('2026-10-31')
   })
 
   test('should be able to find the first holiday in the next year when it is next', () => {
-    const calendar = new HolidayCalendar(2026)
     const date = '2026-12-30'
 
     expect(calendar.nextHolidayFrom(date)).toBe('2027-01-01')
   })
 
   test('should not return the given date if it is a holiday, but instead the next holiday', () => {
-    const calendar = new HolidayCalendar(2026)
     const holiday = '2026-12-25'
 
     expect(calendar.nextHolidayFrom(holiday)).toBe('2026-12-26')
   })
 
   test('should throw error when giving an invalid date', () => {
-    const calendar = new HolidayCalendar(2026)
-
     expect(() => calendar.nextHolidayFrom('2026-13-25')).toThrow()
   })
 
   test('should throw error when giving an invalid year', () => {
-    const calendar = new HolidayCalendar(2026)
-
     expect(() => calendar.nextHolidayFrom('2024-10-22')).toThrow()
   })
 })
 
 describe('isWorkday', () => {
+  const calendar = new HolidayCalendar(2026)
+
   test('should return true when given a workday date', () => {
-    const calendar = new HolidayCalendar(2026)
     const workday = '2026-09-30'
 
     expect(calendar.isWorkday(workday)).toBe(true)
   })
 
   test('should return false when given a weekend date', () => {
-    const calendar = new HolidayCalendar(2026)
     const weekend = '2026-10-10'
 
     expect(calendar.isWorkday(weekend)).toBe(false)
   })
 
   test('should return false when given a holiday date', () => {
-    const calendar = new HolidayCalendar(2026)
     const holiday = '2026-12-25'
 
     expect(calendar.isWorkday(holiday)).toBe(false)
   })
 
   test('should throw error when giving an invalid date', () => {
-    const calendar = new HolidayCalendar(2026)
-
     expect(() => calendar.isWorkday('2026-13-25')).toThrow()
   })
 
   test('should throw error when giving an invalid year', () => {
-    const calendar = new HolidayCalendar(2026)
-
     expect(() => calendar.isWorkday('2024-10-22')).toThrow()
   })
 })
 
 describe('workdaysFromTodayUntil', () => {
+  const calendar = new HolidayCalendar(2026)
+
   beforeEach(() => {
     vi.useFakeTimers()
   })
@@ -144,63 +126,60 @@ describe('workdaysFromTodayUntil', () => {
 
   test('should find number of workdays left, from today until given date', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysFromTodayUntil('2026-10-31')).toBe(13)
   })
 
   test('should count today but not end date', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysFromTodayUntil('2026-10-19')).toBe(3)
   })
 
   test('should return 0 when the given date is today', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysFromTodayUntil('2026-10-14')).toBe(0)
   })
 
   test('should return 0 when the date has passed', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysFromTodayUntil('2026-10-13')).toBe(0)
   })
 
   test('should not count holidays', () => {
     vi.setSystemTime('2026-12-21')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysFromTodayUntil('2026-12-28')).toBe(4)
   })
 
   test('should not count weekends', () => {
     vi.setSystemTime('2026-10-17')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysFromTodayUntil('2026-10-20')).toBe(1)
   })
 
   test('should throw error when the given date is in another year', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
-    expect(() => {calendar.workdaysFromTodayUntil('2027-01-20')}).toThrow()
+    expect(() => {
+      calendar.workdaysFromTodayUntil('2027-01-20')
+    }).toThrow()
   })
 
   test('should throw error when the given date is in another year', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
-    expect(() => {calendar.workdaysFromTodayUntil('2027-01-20')}).toThrow()
+    expect(() => {
+      calendar.workdaysFromTodayUntil('2027-01-20')
+    }).toThrow()
   })
-
 })
 
 describe('workdaysAfterTodayUntil', () => {
+  const calendar = new HolidayCalendar(2026)
+
   beforeEach(() => {
     vi.useFakeTimers()
   })
@@ -211,65 +190,61 @@ describe('workdaysAfterTodayUntil', () => {
 
   test('should find number of workdays left, from today until given date', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysAfterTodayUntil('2026-10-31')).toBe(12)
   })
 
-  test('should count end date but not today\'s date', () => {
+  test("should count end date but not today's date", () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysAfterTodayUntil('2026-10-19')).toBe(3)
   })
 
   test('should return 0 when the given date is today', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysAfterTodayUntil('2026-10-14')).toBe(0)
   })
 
   test('should return 0 when the date has passed', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysAfterTodayUntil('2026-10-13')).toBe(0)
   })
 
   test('should not count holidays', () => {
     vi.setSystemTime('2026-12-21')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysAfterTodayUntil('2026-12-28')).toBe(4)
   })
 
   test('should not count weekends', () => {
     vi.setSystemTime('2026-10-17')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.workdaysAfterTodayUntil('2026-10-20')).toBe(2)
   })
 
   test('should throw error when the given date is in another year', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
-    expect(() => {calendar.workdaysAfterTodayUntil('2027-01-20')}).toThrow()
+    expect(() => {
+      calendar.workdaysAfterTodayUntil('2027-01-20')
+    }).toThrow()
   })
 
   test('should throw error when the given date is in another year', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
-    expect(() => {calendar.workdaysAfterTodayUntil('2027-01-20')}).toThrow()
+    expect(() => {
+      calendar.workdaysAfterTodayUntil('2027-01-20')
+    }).toThrow()
   })
-
 })
 
 describe('workdaysBetween', () => {
+  const calendar = new HolidayCalendar(2026)
+
   test('should not count weekends', () => {
-    const calendar = new HolidayCalendar(2026)
     const startDate = '2026-10-09'
     const endDate = '2026-10-11'
 
@@ -277,7 +252,6 @@ describe('workdaysBetween', () => {
   })
 
   test('should not count holidays', () => {
-    const calendar = new HolidayCalendar(2026)
     const startDate = '2026-12-23'
     const endDate = '2026-12-26'
 
@@ -293,14 +267,10 @@ describe('workdaysBetween', () => {
   })
 
   test('should throw error when giving an invalid date', () => {
-    const calendar = new HolidayCalendar(2026)
-
     expect(() => calendar.workdaysBetween('2026-13-25')).toThrow()
   })
 
   test('should throw error when giving an invalid year', () => {
-    const calendar = new HolidayCalendar(2026)
-
     expect(() => calendar.workdaysBetween('2024-10-22')).toThrow()
   })
 })
@@ -308,6 +278,7 @@ describe('workdaysBetween', () => {
 describe('workdaysInPeriod', () => {
   test('should not count weekends', () => {
     const calendar = new HolidayCalendar(2026)
+
     const startDate = '2026-10-09'
     const endDate = '2026-10-11'
 
@@ -316,6 +287,7 @@ describe('workdaysInPeriod', () => {
 
   test('should not count holidays', () => {
     const calendar = new HolidayCalendar(2026)
+
     const startDate = '2026-12-23'
     const endDate = '2026-12-26'
 
@@ -346,6 +318,7 @@ describe('workdaysInPeriod', () => {
 describe('workdaysAfterUntil', () => {
   test('should not count weekends', () => {
     const calendar = new HolidayCalendar(2026)
+
     const startDate = '2026-10-09'
     const endDate = '2026-10-11'
 
@@ -354,6 +327,7 @@ describe('workdaysAfterUntil', () => {
 
   test('should not count holidays', () => {
     const calendar = new HolidayCalendar(2026)
+
     const startDate = '2026-12-23'
     const endDate = '2026-12-26'
 
@@ -382,6 +356,8 @@ describe('workdaysAfterUntil', () => {
 })
 
 describe('holidaysLeftThisYear', () => {
+  const calendar = new HolidayCalendar(2026)
+
   beforeEach(() => {
     vi.useFakeTimers()
   })
@@ -392,23 +368,35 @@ describe('holidaysLeftThisYear', () => {
 
   test('should find number of holidays left this year, after today', () => {
     vi.setSystemTime('2026-10-14')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.holidaysLeftThisYear()).toBe(3)
   })
 
   test('should not count today if it is a holiday', () => {
     vi.setSystemTime('2026-12-25')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.holidaysLeftThisYear()).toBe(1)
   })
 
   test('should return 0 if there are no holidays left', () => {
     vi.setSystemTime('2026-12-26')
-    const calendar = new HolidayCalendar(2026)
 
     expect(calendar.holidaysLeftThisYear()).toBe(0)
   })
 })
 
+describe('invalid dates', () => {
+    const calendar = new HolidayCalendar(2026)
+
+    test('throws for February 30', () => {
+      expect(() => calendar.isHoliday('2026-02-30')).toThrow('Invalid date')
+    })
+
+    test('throws for February 29 in a non-leap year', () => {
+      expect(() => calendar.isHoliday('2026-02-29')).toThrow('Invalid date')
+    })
+
+    test('throws for April 31', () => {
+      expect(() => calendar.isHoliday('2026-04-31')).toThrow('Invalid date')
+    })
+  })

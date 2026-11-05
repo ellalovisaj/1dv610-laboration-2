@@ -1,10 +1,10 @@
-import { DateHelpers } from './DateHelpers.js'
+import { DateCalculator } from './utils/DateCalculator.js'
 
 /**
  * Class that is responsible for all Easter-based holiday calculations.
  */
 export class EasterCalculator {
-  #helpers = new DateHelpers()
+  #calculator = new DateCalculator()
   #easterHolidayOffsets = [
     { name: 'Good Friday', daysFromEaster: -2 },
     { name: 'Easter', daysFromEaster: 0 },
@@ -30,7 +30,7 @@ export class EasterCalculator {
       // Add name and date to a temporary object
       const tempEasterHoliday = {
         name: holiday.name,
-        date: this.#helpers.addDays(easter, holiday.daysFromEaster),
+        date: this.#calculator.addDaysTo(easter, holiday.daysFromEaster),
       }
       // Add object to array
       easterBasedHolidays.push(tempEasterHoliday)
