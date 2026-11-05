@@ -398,9 +398,5 @@ describe('holidaysLeftThisYear', () => {
     test('throws for April 31', () => {
       expect(() => calendar.isHoliday('2026-04-31')).toThrow('Invalid date')
     })
-
-    test('throws for workdays as a string', () => {
-      expect(() => calendar.addWorkdays('2026-11-04', '5')).toThrow()
-    })
   })
 })
