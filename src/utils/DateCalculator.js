@@ -3,26 +3,6 @@
  */
 export class DateCalculator {
   /**
-   * Removes first place in the array.
-   *
-   * @param {string[]} dateStrings - Array of date strings.
-   * @returns {string[]} Array of date strings.
-   */
-  excludeStartDate(dateStrings) {
-    return dateStrings.slice(1)
-  }
-
-  /**
-   * Removes last place in the array.
-   *
-   * @param {string[]} dateStrings - Array of date strings.
-   * @returns {string[]} Array of date strings.
-   */
-  excludeEndDate(dateStrings) {
-    return dateStrings.slice(0, -1)
-  }
-
-  /**
    * @param {object} date - The date to add days to.
    * @param {number} dayCount - The number of days to add.
    */
@@ -38,6 +18,14 @@ export class DateCalculator {
    */
   addDaysToDateString(dateString, dayCount) {
     return this.convertToString(this.addDaysTo(this.convertToDate(dateString), dayCount))
+  }
+
+  removeFirstPlaceOf(dateStrings) {
+    return dateStrings.slice(1)
+  }
+
+  removeLastPlaceOf(dateStrings) {
+    return dateStrings.slice(0, -1)
   }
 
   getWeekdayNumber(date) {
@@ -71,6 +59,7 @@ export class DateCalculator {
 
   getTodaysDateString() {
     // Use sv-SE to get YYYY-MM-DD format on local time.
+    // By converting with .toISOString(), the time zone will always be UTC
     return this.#getTodaysDate().toLocaleDateString('sv-SE')
   }
 
@@ -92,10 +81,6 @@ export class DateCalculator {
 
   isDifferentYears(firstDate, secondDate) {
     return this.getYearOf(firstDate) !== this.getYearOf(secondDate)
-  }
-
-  isSameDate(firstDate, secondDate) {
-    return firstDate === secondDate
   }
 
   getCurrentYear() {

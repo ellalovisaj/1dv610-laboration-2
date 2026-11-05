@@ -31,7 +31,7 @@ export class HolidayCalendar {
    */
   constructor(year) {
     this.#validator.validateYear(year)
-    
+
     this.#year = year
     this.#movingHolidays = new MovingHolidays(year)
     const allHolidays = this.#compileAllHolidays()
@@ -45,7 +45,7 @@ export class HolidayCalendar {
    * @returns {boolean} - True if it is a holiday, false if not.
    */
   isHoliday(dateString) {
-    this.#validator.validateYearInCalendarYear(dateString, this.#year)
+    this.#validateDateInYear(dateString, this.#year)
     return this.#isHoliday(dateString)
   }
 
@@ -57,7 +57,7 @@ export class HolidayCalendar {
    * @returns {boolean} True if it is a workday, false if not.
    */
   isWorkday(dateString) {
-    this.#validator.validateYearInCalendarYear(dateString, this.#year)
+    this.#validateDateInYear(dateString, this.#year)
     return this.#isWorkday(dateString)
   }
 
@@ -69,7 +69,7 @@ export class HolidayCalendar {
    * @returns {string} The date of the next holiday
    */
   nextHolidayFrom(dateString) {
-    this.#validator.validateYearInCalendarYear(dateString, this.#year)
+    this.#validateDateInYear(dateString, this.#year)
 
     const nextHoliday = this.#holidayDateStrings.find((holidayDate) => holidayDate > dateString)
 
@@ -85,12 +85,11 @@ export class HolidayCalendar {
    * @returns {number} The number of workdays in the period.
    */
   workdaysAfterUntil(startDateString, endDateString) {
-    this.#validator.validateYearInCalendarYear(startDateString, this.#year)
-    this.#validator.validateYearInCalendarYear(endDateString, this.#year)
+    this.#validateDateInYear(startDateString, this.#year)
+    this.#validateDateInYear(endDateString, this.#year)
 
-    return this.#findWorkdays(
-      this.#calculator.excludeStartDate(this.#getDateStringsInRange(startDateString, endDateString))
-    ).length
+    return this.#findWorkdays(this.#excludeStartDate(this.#getDateStringsInRange(startDateString, endDateString)))
+      .length
   }
 
   /**
@@ -102,8 +101,8 @@ export class HolidayCalendar {
    * @returns {number} The number of workdays in the period.
    */
   workdaysInPeriod(startDateString, endDateString) {
-    this.#validator.validateYearInCalendarYear(startDateString, this.#year)
-    this.#validator.validateYearInCalendarYear(endDateString, this.#year)
+    this.#validateDateInYear(startDateString, this.#year)
+    this.#validateDateInYear(endDateString, this.#year)
 
     return this.#findWorkdays(this.#getDateStringsInRange(startDateString, endDateString)).length
   }
@@ -117,7 +116,7 @@ export class HolidayCalendar {
    * @returns {number} The number of workdays.
    */
   workdaysAfterTodayUntil(dateString) {
-    this.#validator.validateYearInCalendarYear(dateString, this.#year)
+    this.#validateDateInYear(dateString, this.#year)
     return this.workdaysAfterUntil(this.#calculator.getTodaysDateString(), dateString)
   }
 
@@ -171,6 +170,18 @@ export class HolidayCalendar {
     return this.#holidayDateStrings.includes(dateString)
   }
 
+  #excludeStartDate(dates) {
+    return this.#calculator.removeFirstPlaceOf(dates)
+  }
+
+  #excludeEndDate(dates) {
+    return this.#calculator.removeLastPlaceOf(dates)
+  }
+
+  #validateDateInYear(dateString, year) {
+    return this.#validator.validateYearForHolidayCalendar(dateString, year)
+  }
+
   /**
    * @deprecated Use workdaysAfterTodayUntil instead.
    *
@@ -185,10 +196,10 @@ export class HolidayCalendar {
   workdaysFromTodayUntil(dateString) {
     const today = this.#calculator.getTodaysDateString()
 
-    this.#validator.validateYearInCalendarYear(dateString, this.#year)
-    this.#validator.validateYearInCalendarYear(today, this.#year)
+    this.#validateDateInYear(dateString, this.#year)
+    this.#validateDateInYear(today, this.#year)
 
-    return this.#findWorkdays(this.#calculator.excludeEndDate(this.#getDateStringsInRange(today, dateString))).length
+    return this.#findWorkdays(this.#excludeEndDate(this.#getDateStringsInRange(today, dateString))).length
   }
 
   /**
@@ -204,11 +215,9 @@ export class HolidayCalendar {
    * @returns {number} The number of workdays between the dates.
    */
   workdaysBetween(startDateString, endDateString) {
-    this.#validator.validateYearInCalendarYear(startDateString, this.#year)
-    this.#validator.validateYearInCalendarYear(endDateString, this.#year)
+    this.#validateDateInYear(startDateString, this.#year)
+    this.#validateDateInYear(endDateString, this.#year)
 
-    return this.#findWorkdays(
-      this.#calculator.excludeEndDate(this.#getDateStringsInRange(startDateString, endDateString))
-    ).length
+    return this.#findWorkdays(this.#excludeEndDate(this.#getDateStringsInRange(startDateString, endDateString))).length
   }
 }

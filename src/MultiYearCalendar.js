@@ -61,7 +61,7 @@ export class MultiYearCalendar {
    */
   workdaysAfterUntil(startDate, endDate) {
     this.#validateDates(startDate, endDate)
-    if (this.#calculator.isSameDate(startDate, endDate) || startDate > endDate) return 0
+    if (startDate === endDate || startDate > endDate) return 0
     return this.workdaysInPeriod(this.#calculator.addDaysToDateString(startDate, 1), endDate)
   }
 
